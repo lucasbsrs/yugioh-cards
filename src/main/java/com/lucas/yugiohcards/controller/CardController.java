@@ -18,23 +18,5 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class CardController {
 
-    private Map<Integer, Card> cards;
-
-    public CardController() {
-        cards = new HashMap<Integer, Card>();
-
-        Card c1 = new Card("Name teste", "Wind", "Testeeee", 2, "332423asda", "type teste", 13300, 1344);
-        Card c2 = new Card("Name teste", "Wind", "Testeeee", 2, "332423asda", "type teste", 13300, 1344);
-        Card c3 = new Card("Name teste", "Wind", "Testeeee", 2, "332423asda", "type teste", 13300, 1344);
-
-        cards.put(1, c1);
-        cards.put(2, c2);
-        cards.put(3, c3);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Card>> listCards(){
-        return new ResponseEntity<List<Card>>(new ArrayList<Card>(cards.values()), HttpStatus.OK);
-    }
 
 }

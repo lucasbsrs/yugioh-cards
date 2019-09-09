@@ -15,7 +15,7 @@ public class Card implements Serializable {
 
     private String name;
 
-    private String attribute;
+    private Attribute attribute;
 
     private String description;
 
@@ -25,17 +25,20 @@ public class Card implements Serializable {
 
     private String type;
 
+    private boolean effect;
+
     private Integer attack;
 
     private Integer defense;
 
-    public Card(String name, String attribute, String description, Integer level, String number, String type, Integer attack, Integer defense) {
+    public Card(String name, Attribute attribute, String description, Integer level, String number, String type, boolean effect, Integer attack, Integer defense) {
         this.name = name;
         this.attribute = attribute;
         this.description = description;
         this.level = level;
         this.number = number;
         this.type = type;
+        this.effect = effect;
         this.attack = attack;
         this.defense = defense;
     }
@@ -56,11 +59,11 @@ public class Card implements Serializable {
         this.name = name;
     }
 
-    public String getAttribute() {
+    public Attribute getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(String attribute) {
+    public void setAttribute(Attribute attribute) {
         this.attribute = attribute;
     }
 
@@ -94,6 +97,14 @@ public class Card implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isEffect() {
+        return effect;
+    }
+
+    public void setEffect(boolean effect) {
+        this.effect = effect;
     }
 
     public Integer getAttack() {
