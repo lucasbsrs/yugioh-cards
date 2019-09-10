@@ -16,10 +16,16 @@ public abstract class Card implements Serializable {
 
     private String description;
 
-    public Card(String name, String number, String description) {
+    private String status;
+
+    public Card() {
+    }
+
+    public Card(String name, String number, String description, String status) {
         this.name = name;
         this.number = number;
         this.description = description;
+        this.status = status;
     }
 
     public Integer getId() {
@@ -52,5 +58,13 @@ public abstract class Card implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

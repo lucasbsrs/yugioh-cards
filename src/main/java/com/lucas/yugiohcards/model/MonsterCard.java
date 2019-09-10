@@ -1,6 +1,7 @@
 package com.lucas.yugiohcards.model;
 
 import com.lucas.yugiohcards.enums.AttributeEnum;
+import com.lucas.yugiohcards.enums.StatusCardEnum;
 
 import javax.persistence.Entity;
 
@@ -19,10 +20,12 @@ public class MonsterCard extends Card {
 
     private Integer defense;
 
-    private String status;
+    public MonsterCard() {
 
-    public MonsterCard(String name, String number, String description, AttributeEnum attribute, Integer level, String type, boolean effect, Integer attack, Integer defense) {
-        super(name, number, description);
+    }
+
+    public MonsterCard(String name, String number, String description, AttributeEnum attribute, Integer level, String type, boolean effect, Integer attack, Integer defense, StatusCardEnum statusCardEnum) {
+        super(name, number, description, statusCardEnum.getDescription());
         this.attribute = attribute == null ? null : attribute.getDescription();
         this.level = level;
         this.type = type;
