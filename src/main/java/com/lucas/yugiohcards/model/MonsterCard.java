@@ -19,7 +19,10 @@ public class MonsterCard extends Card {
 
     private Integer defense;
 
-    public MonsterCard(AttributeEnum attribute, Integer level, String type, boolean effect, Integer attack, Integer defense) {
+    private String status;
+
+    public MonsterCard(String name, String number, String description, AttributeEnum attribute, Integer level, String type, boolean effect, Integer attack, Integer defense) {
+        super(name, number, description);
         this.attribute = attribute == null ? null : attribute.getDescription();
         this.level = level;
         this.type = type;

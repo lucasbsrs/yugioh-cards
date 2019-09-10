@@ -16,6 +16,12 @@ public abstract class Card implements Serializable {
 
     private String description;
 
+    public Card(String name, String number, String description) {
+        this.name = name;
+        this.number = number;
+        this.description = description;
+    }
+
     public Integer getId() {
         return id;
     }
