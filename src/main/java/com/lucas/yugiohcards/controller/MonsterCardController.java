@@ -20,11 +20,11 @@ public class MonsterCardController {
     @Autowired
     private MonsterCardService monsterCardService;
 
+
     @GetMapping()
     public ResponseEntity<List<MonsterCard>> findAll() {
         List<MonsterCard> list = monsterCardService.findAll();
 
-        //return ResponseEntity.ok().body(list);
         return new ResponseEntity<List<MonsterCard>>(list, HttpStatus.OK);
     }
 
