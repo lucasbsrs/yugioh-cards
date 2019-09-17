@@ -44,4 +44,11 @@ public class MonsterCardController {
 
         return new ResponseEntity<MonsterCard>(monsterCard, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        monsterCardService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

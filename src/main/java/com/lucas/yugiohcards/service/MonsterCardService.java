@@ -25,6 +25,10 @@ public class MonsterCardService {
         monsterCardRepository.save(monsterCard);
     }
 
+    public void delete(Long id){
+        monsterCardRepository.deleteById(id);
+    }
+
     public MonsterCard fromDTO(MonsterCardDTO monsterCardDTO) {
         MonsterCard monsterCard = MonsterCardBuilder.builder()
                 .name(monsterCardDTO.getName())
