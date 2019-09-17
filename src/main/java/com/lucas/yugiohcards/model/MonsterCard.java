@@ -8,25 +8,25 @@ import javax.persistence.Entity;
 @Entity
 public class MonsterCard extends Card {
 
-    private String attribute;
+    private Long attribute;
 
-    private Integer level;
+    private Long level;
 
     private String type;
 
     private boolean effect;
 
-    private Integer attack;
+    private Double attack;
 
-    private Integer defense;
+    private Double defense;
 
     public MonsterCard() {
 
     }
 
-    public MonsterCard(String name, String number, String description, AttributeEnum attribute, Integer level, String type, boolean effect, Integer attack, Integer defense, StatusCardEnum statusCardEnum) {
-        super(name, number, description, statusCardEnum.getDescription());
-        this.attribute = attribute == null ? null : attribute.getDescription();
+    public MonsterCard(String name, String number, String description, AttributeEnum attribute, Long level, String type, boolean effect, Double attack, Double defense, StatusCardEnum statusCardEnum) {
+        super(name, number, description, statusCardEnum.getCod());
+        this.attribute = attribute == null ? null : attribute.getCod();
         this.level = level;
         this.type = type;
         this.effect = effect;
@@ -34,19 +34,19 @@ public class MonsterCard extends Card {
         this.defense = defense;
     }
 
-    public String getAttribute() {
+    public Long getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(String attribute) {
+    public void setAttribute(Long attribute) {
         this.attribute = attribute;
     }
 
-    public Integer getLevel() {
+    public Long getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(Long level) {
         this.level = level;
     }
 
@@ -66,19 +66,19 @@ public class MonsterCard extends Card {
         this.effect = effect;
     }
 
-    public Integer getAttack() {
+    public Double getAttack() {
         return attack;
     }
 
-    public void setAttack(Integer attack) {
+    public void setAttack(Double attack) {
         this.attack = attack;
     }
 
-    public Integer getDefense() {
+    public Double getDefense() {
         return defense;
     }
 
-    public void setDefense(Integer defense) {
+    public void setDefense(Double defense) {
         this.defense = defense;
     }
 }

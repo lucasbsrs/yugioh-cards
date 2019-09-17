@@ -8,7 +8,7 @@ public abstract class Card implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -16,23 +16,23 @@ public abstract class Card implements Serializable {
 
     private String description;
 
-    private String status;
+    private Long status;
 
     public Card() {
     }
 
-    public Card(String name, String number, String description, String status) {
+    public Card(String name, String number, String description, Long status) {
         this.name = name;
         this.number = number;
         this.description = description;
         this.status = status;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,11 +60,11 @@ public abstract class Card implements Serializable {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 }

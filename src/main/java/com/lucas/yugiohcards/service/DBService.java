@@ -16,7 +16,7 @@ public class DBService {
     public void instantiateTestDatabase() throws Exception {
 
         MonsterCard m1 = new MonsterCard("Dragunity Dux", "LCKC-EN084", "Gains 200 ATK for each \"Dragunity\" card you control. When this card is Normal Summoned: You can target 1 Level 3 or lower Dragon \"Dragunity\" monster in your GY; equip that target to this card.",
-                                        AttributeEnum.WIND, 4, "Winged Beast", true, 1500, 1000, StatusCardEnum.LIMITED);
+                                        AttributeEnum.WIND, 4L, "Winged Beast", true, 1500.0, 1000.0, StatusCardEnum.LIMITED);
 
         monsterCardRepository.save(m1);
     }

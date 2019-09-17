@@ -15,13 +15,13 @@ public class MonsterCardDTO implements Serializable {
     private String description;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String status;
+    private Long status;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String attribute;
+    private Long attribute;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private Integer level;
+    private Long level;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     private String type;
@@ -29,15 +29,15 @@ public class MonsterCardDTO implements Serializable {
     private boolean effect;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private Integer attack;
+    private Double attack;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private Integer defense;
+    private Double defense;
 
     public MonsterCardDTO() {
     }
 
-    public MonsterCardDTO(String name, String number, String description, String status, String attribute, Integer level, String type, boolean effect, Integer attack, Integer defense) {
+    public MonsterCardDTO(String name, String number, String description, Long status, Long attribute, Long level, String type, boolean effect, Double attack, Double defense) {
         this.name = name;
         this.number = number;
         this.description = description;
@@ -74,27 +74,27 @@ public class MonsterCardDTO implements Serializable {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 
-    public String getAttribute() {
+    public Long getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(String attribute) {
+    public void setAttribute(Long attribute) {
         this.attribute = attribute;
     }
 
-    public Integer getLevel() {
+    public Long getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(Long level) {
         this.level = level;
     }
 
@@ -114,19 +114,19 @@ public class MonsterCardDTO implements Serializable {
         this.effect = effect;
     }
 
-    public Integer getAttack() {
+    public Double getAttack() {
         return attack;
     }
 
-    public void setAttack(Integer attack) {
+    public void setAttack(Double attack) {
         this.attack = attack;
     }
 
-    public Integer getDefense() {
+    public Double getDefense() {
         return defense;
     }
 
-    public void setDefense(Integer defense) {
+    public void setDefense(Double defense) {
         this.defense = defense;
     }
 }

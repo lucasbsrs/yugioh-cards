@@ -2,17 +2,19 @@ package com.lucas.yugiohcards.enums;
 
 public enum StatusCardEnum {
 
-    LIMITED(1, "Limited");
+    LIMITED(1, "Limited"),
+    SEMI_LIMITED(2, "Semi-Limited"),
+    FORBIDDEN(3, "Forbidden");
 
-    private int cod;
+    private long cod;
     private String description;
 
-    private StatusCardEnum(int cod, String description) {
+    private StatusCardEnum(long cod, String description) {
         this.cod = cod;
         this.description = description;
     }
 
-    public int getCod() {
+    public long getCod() {
         return cod;
     }
 
@@ -20,7 +22,7 @@ public enum StatusCardEnum {
         return description;
     }
 
-    public static StatusCardEnum toEnum(Integer cod) {
+    public static StatusCardEnum toEnum(Long cod) {
 
         if(cod == null) {
             return null;

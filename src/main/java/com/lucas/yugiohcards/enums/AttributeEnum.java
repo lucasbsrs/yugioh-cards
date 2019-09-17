@@ -9,15 +9,15 @@ public enum AttributeEnum {
     WIND(6, "Wind"),
     DIVINE(7, "Divine");
 
-    private int cod;
+    private long cod;
     private String description;
 
-    private AttributeEnum(int cod, String description) {
+    private AttributeEnum(long cod, String description) {
         this.cod = cod;
         this.description = description;
     }
 
-    public int getCod() {
+    public long getCod() {
         return cod;
     }
 
@@ -25,7 +25,7 @@ public enum AttributeEnum {
         return description;
     }
 
-    public static AttributeEnum toEnum(Integer cod) {
+    public static AttributeEnum toEnum(Long cod) {
 
         if(cod == null) {
             return null;

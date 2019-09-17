@@ -32,16 +32,16 @@ public class MonsterCardBuilder {
     }
 
     public MonsterCardBuilder status(StatusCardEnum statusCardEnum) {
-        this.monsterCard.setStatus(statusCardEnum.getDescription());
+        this.monsterCard.setStatus(statusCardEnum.getCod());
         return this;
     }
 
     public MonsterCardBuilder attribute(AttributeEnum attributeEnum) {
-        this.monsterCard.setAttribute(attributeEnum.getDescription());
+        this.monsterCard.setAttribute(attributeEnum.getCod());
         return this;
     }
 
-    public MonsterCardBuilder level(Integer level) {
+    public MonsterCardBuilder level(Long level) {
         this.monsterCard.setLevel(level);
         return this;
     }
@@ -56,12 +56,12 @@ public class MonsterCardBuilder {
         return this;
     }
 
-    public MonsterCardBuilder attack(Integer attack) {
+    public MonsterCardBuilder attack(Double attack) {
         this.monsterCard.setAttack(attack);
         return this;
     }
 
-    public MonsterCardBuilder defense(Integer defense) {
+    public MonsterCardBuilder defense(Double defense) {
         this.monsterCard.setDefense(defense);
         return this;
     }

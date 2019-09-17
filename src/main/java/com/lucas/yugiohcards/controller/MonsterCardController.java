@@ -1,14 +1,12 @@
 package com.lucas.yugiohcards.controller;
 
+import com.lucas.yugiohcards.dto.MonsterCardDTO;
 import com.lucas.yugiohcards.model.MonsterCard;
 import com.lucas.yugiohcards.service.MonsterCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,15 @@ public class MonsterCardController {
 
     @Autowired
     private MonsterCardService monsterCardService;
+
+    @PostMapping
+    public ResponseEntity<MonsterCard> save(@RequestBody MonsterCardDTO monsterCardDTO) {
+        MonsterCard monsterCard = monsterCardService.fromDTO(monsterCardDTO);
+
+        monsterCardService.save(monsterCard);
+
+        return new ResponseEntity<MonsterCard>(monsterCard, HttpStatus.OK);
+    }
 
 
     @GetMapping()
