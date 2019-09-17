@@ -1,6 +1,7 @@
 package com.lucas.yugiohcards.dto;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class MonsterCardDTO implements Serializable {
@@ -14,13 +15,13 @@ public class MonsterCardDTO implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     private String description;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull(message = "Preenchimento obrigatório")
     private Long status;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull(message = "Preenchimento obrigatório")
     private Long attribute;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull(message = "Preenchimento obrigatório")
     private Long level;
 
     @NotEmpty(message = "Preenchimento obrigatório")
@@ -28,10 +29,10 @@ public class MonsterCardDTO implements Serializable {
 
     private boolean effect;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull(message = "Preenchimento obrigatório")
     private Double attack;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
+    @NotNull(message = "Preenchimento obrigatório")
     private Double defense;
 
     public MonsterCardDTO() {
