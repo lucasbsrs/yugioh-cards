@@ -1,45 +1,49 @@
 package com.lucas.yugiohcards.dto;
 
+import com.lucas.yugiohcards.enums.AtributoEnum;
+import com.lucas.yugiohcards.enums.StatusCartaEnum;
+import com.lucas.yugiohcards.model.TipoCarta;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class MonsterCardDTO implements Serializable {
+public class CartaMonstroDTO implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String name;
+    private String nome;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String number;
+    private String numero;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String description;
+    private String descricao;
 
     @NotNull(message = "Preenchimento obrigatório")
-    private Long status;
+    private StatusCartaEnum status;
 
     @NotNull(message = "Preenchimento obrigatório")
-    private Long attribute;
+    private AtributoEnum atributo;
 
     @NotNull(message = "Preenchimento obrigatório")
     private Long level;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private String type;
+    private List<TipoCarta> tipoCartas;
 
-    private boolean effect;
-
-    @NotNull(message = "Preenchimento obrigatório")
-    private Double attack;
+    private boolean efeito;
 
     @NotNull(message = "Preenchimento obrigatório")
-    private Double defense;
+    private Double ataque;
+
+    @NotNull(message = "Preenchimento obrigatório")
+    private Double defesa;
 
 }
