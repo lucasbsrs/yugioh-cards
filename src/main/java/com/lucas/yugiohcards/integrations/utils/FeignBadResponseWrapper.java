@@ -1,4 +1,4 @@
-package br.com.calcadosbeirario.integrations.utils;
+package com.lucas.yugiohcards.integrations.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,6 @@
-package br.com.calcadosbeirario.integrations.client;
+package com.lucas.yugiohcards.integrations.client;
 
-import br.com.calcadosbeirario.integrations.utils.BusinessHystrixException;
-import com.netflix.hystrix.exception.HystrixBadRequestException;
+import com.lucas.yugiohcards.integrations.utils.BusinessHystrixException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 

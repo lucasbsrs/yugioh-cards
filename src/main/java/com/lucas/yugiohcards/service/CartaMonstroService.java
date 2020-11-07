@@ -1,6 +1,7 @@
 package com.lucas.yugiohcards.service;
 
 import com.lucas.yugiohcards.dto.CartaMonstroDTO;
+import com.lucas.yugiohcards.integrations.client.YgoProClient;
 import com.lucas.yugiohcards.model.CartaMonstro;
 import com.lucas.yugiohcards.repository.CartaMonstroRepository;
 import org.modelmapper.ModelMapper;
@@ -16,15 +17,21 @@ public class CartaMonstroService {
     @Autowired
     private CartaMonstroRepository cartaMonstroRepository;
 
+    @Autowired
+    private DBService dbService;
+
     private ModelMapper model = new ModelMapper();
 
     public List<CartaMonstroDTO> findAll() {
-        List<CartaMonstro> listaCartaMonstros = cartaMonstroRepository.findAll();
+//        List<CartaMonstro> listaCartaMonstros = cartaMonstroRepository.findAll();
+//
+//        return listaCartaMonstros.stream()
+//                                 .map(item -> model.map(item, CartaMonstroDTO.class))
+//                                 .collect(Collectors.toList());
 
-        return listaCartaMonstros.stream()
-                                 .map(item -> model.map(item, CartaMonstroDTO.class))
-                                 .collect(Collectors.toList());
+        dbService.importacaoCartas();
 
+        return null;
     }
 
     public CartaMonstro save(CartaMonstro monsterCard){

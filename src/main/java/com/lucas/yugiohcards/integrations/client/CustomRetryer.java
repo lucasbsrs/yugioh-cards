@@ -1,4 +1,4 @@
-package br.com.calcadosbeirario.integrations.client;
+package com.lucas.yugiohcards.integrations.client;
 
 import feign.RetryableException;
 import feign.Retryer;

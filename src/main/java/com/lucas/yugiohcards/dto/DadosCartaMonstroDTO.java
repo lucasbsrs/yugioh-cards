@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class CartaMonstroDTO implements Serializable {
+public class DadosCartaMonstroDTO implements Serializable {
 
     @JsonProperty("name")
     private String name;
