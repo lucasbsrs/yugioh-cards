@@ -29,7 +29,7 @@ public class CartaMonstroService {
 //                                 .map(item -> model.map(item, CartaMonstroDTO.class))
 //                                 .collect(Collectors.toList());
 
-        dbService.importacaoCartas();
+//        dbService.importacaoCartas();
 
         return null;
     }

@@ -9,7 +9,10 @@ import java.util.List;
 @FeignClient(value = "ygopro", url = "${integration.ygopro.url}", configuration = IntegrationConfiguration.class)
 public interface YgoProClient {
 
+//    @GetMapping
+//    List<CartaMonstroDTO> buscarTodosCards();
+
     @GetMapping
-    List<CartaMonstroDTO> buscarTodosCards();
+    List<Object[]> buscarTodosCards();
 
 }

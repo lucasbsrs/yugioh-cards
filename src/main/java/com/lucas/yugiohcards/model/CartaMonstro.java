@@ -1,5 +1,6 @@
 package com.lucas.yugiohcards.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lucas.yugiohcards.enums.AtributoConverter;
 import com.lucas.yugiohcards.enums.AtributoEnum;
 import com.lucas.yugiohcards.enums.StatusCartaConverter;
@@ -8,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -24,25 +26,26 @@ public class CartaMonstro implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    private String codigo;
+
     private String nome;
 
-    private String numero;
+    private String tipo;
 
-    private String descricao;
+    private BigDecimal ataque;
 
-    @Convert(converter = StatusCartaConverter.class)
-    private StatusCartaEnum status;
-
-    @Convert(converter = AtributoConverter.class)
-    private AtributoEnum atributo;
+    private BigDecimal defesa;
 
     private Long level;
 
-    @OneToMany
-    private List<TipoCarta> tipoCartas;
+    private String raca;
 
-    private Double ataque;
+    private String atributo;
 
-    private Double defesa;
+    private String arquetipo;
+
+    private Long escala;
+
+    private Long linkValor;
 
 }
