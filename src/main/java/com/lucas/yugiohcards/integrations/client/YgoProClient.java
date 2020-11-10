@@ -1,6 +1,5 @@
 package com.lucas.yugiohcards.integrations.client;
 
-import com.lucas.yugiohcards.dto.CartaMonstroDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

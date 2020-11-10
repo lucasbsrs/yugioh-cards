@@ -1,6 +1,7 @@
 package com.lucas.yugiohcards.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lucas.yugiohcards.dto.BanListInfoDTO;
 import com.lucas.yugiohcards.enums.AtributoConverter;
 import com.lucas.yugiohcards.enums.AtributoEnum;
 import com.lucas.yugiohcards.enums.StatusCartaConverter;
@@ -47,5 +48,14 @@ public class CartaMonstro implements Serializable {
     private Long escala;
 
     private Long linkValor;
+
+    private String statusBanListTcg;
+
+    private String statusBanListOcg;
+
+    private String statusBanListGoat;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartaMonstro", fetch = FetchType.EAGER)
+    private List<SetCarta> setCartas;
 
 }

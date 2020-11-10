@@ -1,6 +1,6 @@
 package com.lucas.yugiohcards.controller;
 
-import com.lucas.yugiohcards.dto.CartaMonstroDTO;
+import com.lucas.yugiohcards.dto.ImportacaoCartaDTO;
 import com.lucas.yugiohcards.service.DBService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +20,17 @@ public class ImportacaoCardsController {
 	private ModelMapper model = new ModelMapper();
 
     @GetMapping("/card")
-    public ResponseEntity<CartaMonstroDTO> importarTodasCartas() {
-        CartaMonstroDTO cartaMonstroDTO = dbService.importacaoCartas("");
+    public ResponseEntity<ImportacaoCartaDTO> importarTodasCartas() {
+        ImportacaoCartaDTO importacaoCartaDTO = dbService.importacaoCartas("");
 
-        return ResponseEntity.ok().body(cartaMonstroDTO);
+        return ResponseEntity.ok().body(importacaoCartaDTO);
     }
 
     @GetMapping("/card/{tipo}")
-    public ResponseEntity<CartaMonstroDTO> importacaoCartas(@PathVariable("tipo") String tipo) {
-        CartaMonstroDTO cartaMonstroDTO = dbService.importacaoCartas(tipo);
+    public ResponseEntity<ImportacaoCartaDTO> importacaoCartas(@PathVariable("tipo") String tipo) {
+        ImportacaoCartaDTO importacaoCartaDTO = dbService.importacaoCartas(tipo);
 
-        return ResponseEntity.ok().body(cartaMonstroDTO);
+        return ResponseEntity.ok().body(importacaoCartaDTO);
     }
 
 }

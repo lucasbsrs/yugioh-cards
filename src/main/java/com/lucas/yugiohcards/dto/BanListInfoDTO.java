@@ -13,12 +13,12 @@ import java.io.Serializable;
 public class BanListInfoDTO implements Serializable {
 
     @JsonProperty("ban_tcg")
-    private String tcg;
+    private String statusTcg;
 
     @JsonProperty("ban_ocg")
-    private String ocg;
+    private String statusOcg;
 
     @JsonProperty("ban_goat")
-    private String goat;
+    private String statusGoat;
 
 }
