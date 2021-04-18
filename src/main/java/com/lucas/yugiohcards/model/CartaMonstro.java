@@ -2,6 +2,8 @@ package com.lucas.yugiohcards.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lucas.yugiohcards.dto.BanListInfoDTO;
+import com.lucas.yugiohcards.dto.ImagemCartaDTO;
+import com.lucas.yugiohcards.dto.PrecoCartaDTO;
 import com.lucas.yugiohcards.enums.AtributoConverter;
 import com.lucas.yugiohcards.enums.AtributoEnum;
 import com.lucas.yugiohcards.enums.StatusCartaConverter;
@@ -27,7 +29,6 @@ public class CartaMonstro implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-	@Column(name = "CODIGO")
     private String codigo;
 
     private String nome;
@@ -55,5 +56,17 @@ public class CartaMonstro implements Serializable {
     private String statusBanListOcg;
 
     private String statusBanListGoat;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_monstro_id")
+    private List<SetCarta> setCarta;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_monstro_id")
+    private List<ImagemCarta> imagemCarta;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_monstro_id")
+    private List<PrecoCarta> precoCarta;
 
 }

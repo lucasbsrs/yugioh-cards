@@ -1,16 +1,18 @@
 package com.lucas.yugiohcards.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
 @Entity
-public class SetCarta implements Serializable {
+public class ImagemCarta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,15 +20,11 @@ public class SetCarta implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    private String nome;
+    private Long codigo;
 
-    private String codigo;
+    private String url;
 
-    private String raridade;
-
-    private String codigoRaridade;
-
-    private String preco;
+    private String urlImagemPequena;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_monstro_id")

@@ -42,37 +42,26 @@ public class DBService {
         if(tipo != null && !tipo.isEmpty()) {
             monoCards = webClientYgoPro
                     .method(HttpMethod.GET)
-                    .uri("?type="+tipo)
+                    .uri("?type="+tipo+"num=1&offset=0")
                     .retrieve()
                     .bodyToMono(ImportacaoCartaDTO.class);
         } else {
             monoCards = webClientYgoPro
                     .method(HttpMethod.GET)
+//                    .uri("?cardset=Metal Raiders&num=1&offset=0")
                     .retrieve()
                     .bodyToMono(ImportacaoCartaDTO.class);
         }
-
 
         ImportacaoCartaDTO importacaoCartaDTO = monoCards.block();
 
         List<CartaMonstro> listaCartaMonstro = importacaoCartaDTO.getData().stream().map(c -> {
             CartaMonstro cartaMonstro = modelMapper.map(c, CartaMonstro.class);
-            List<SetCarta> listaSetCarta = new ArrayList<>();
-
-            CartaMonstro cartaMonstroSalva = cartaMonstroRepository.save(cartaMonstro);
-            if(c.getSetCarta() != null) {
-                listaSetCarta = c.getSetCarta().stream().map(sc -> {
-                    SetCarta setCarta = modelMapper.map(sc, SetCarta.class);
-                    return setCarta;
-                }).collect(Collectors.toList());
-
-                setCartaRepository.saveAll(listaSetCarta);
-            }
 
             return cartaMonstro;
         }).collect(Collectors.toList());
 
-//        cartaMonstroRepository.saveAll(listaCartaMonstro);
+        cartaMonstroRepository.saveAll(listaCartaMonstro);
 
         return importacaoCartaDTO;
      }

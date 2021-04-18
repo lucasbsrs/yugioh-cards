@@ -1,9 +1,7 @@
 package com.lucas.yugiohcards.dto;
 
-import com.lucas.yugiohcards.model.SetCarta;
 import lombok.*;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -45,6 +43,6 @@ public class CartaMonstroDTO implements Serializable {
 
     private String statusBanListGoat;
 
-    private List<SetCarta> setCartas;
+    private List<SetCartaDTO> setCarta;
 
 }

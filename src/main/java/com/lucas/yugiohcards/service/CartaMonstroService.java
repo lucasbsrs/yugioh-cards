@@ -31,6 +31,14 @@ public class CartaMonstroService {
 
     }
 
+    public CartaMonstroDTO buscarCartaPorNome(String nomeCarta) {
+        CartaMonstro cartaMonstro = repository.findByNomeEquals(nomeCarta);
+
+        CartaMonstroDTO cartaMonstroDTO = modelMapper.map(cartaMonstro, CartaMonstroDTO.class);
+
+        return cartaMonstroDTO;
+    }
+
     public CartaMonstro save(CartaMonstro monsterCard){
         return repository.save(monsterCard);
     }

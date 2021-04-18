@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class ImagemCartaDTO implements Serializable {
 
     @JsonProperty("id")
-    private Long id;
+    private Long codigo;
 
     @JsonProperty("image_url")
     private String url;

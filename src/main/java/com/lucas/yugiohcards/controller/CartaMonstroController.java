@@ -45,6 +45,13 @@ public class CartaMonstroController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("/{nomeCarta}")
+    public ResponseEntity<CartaMonstroDTO> buscarCartaPorNome(@PathVariable String nomeCarta) {
+        CartaMonstroDTO list = cartaMonstroService.buscarCartaPorNome(nomeCarta);
+
+        return ResponseEntity.ok().body(list);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<CartaMonstro> update(@Valid @RequestBody ImportacaoCartaDTO importacaoCartaDTO, @PathVariable Long id) {
         CartaMonstro cartaMonstro = model.map(importacaoCartaDTO, CartaMonstro.class);
