@@ -29,8 +29,4 @@ public class SetCarta implements Serializable {
 
     private String preco;
 
-    @ManyToOne
-    @JoinColumn(name = "carta_monstro_id", nullable = false)
-    private CartaMonstro cartaMonstro;
-
 }

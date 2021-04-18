@@ -27,6 +27,7 @@ public class CartaMonstro implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+	@Column(name = "CODIGO")
     private String codigo;
 
     private String nome;
@@ -54,8 +55,5 @@ public class CartaMonstro implements Serializable {
     private String statusBanListOcg;
 
     private String statusBanListGoat;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartaMonstro", fetch = FetchType.EAGER)
-    private List<SetCarta> setCartas;
 
 }

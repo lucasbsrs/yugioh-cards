@@ -59,22 +59,14 @@ public class DBService {
             CartaMonstro cartaMonstro = modelMapper.map(c, CartaMonstro.class);
             List<SetCarta> listaSetCarta = new ArrayList<>();
 
-
-//            if(c.getBanListInfo() != null) {
-//                cartaMonstro.setStatusBanListTcg(c.getBanListInfo().getStatusTcg());
-//                cartaMonstro.setStatusBanListOcg(c.getBanListInfo().getStatusOcg());
-//                cartaMonstro.setStatusBanListGoat(c.getBanListInfo().getStatusGoat());
-//            }
-
             CartaMonstro cartaMonstroSalva = cartaMonstroRepository.save(cartaMonstro);
             if(c.getSetCarta() != null) {
                 listaSetCarta = c.getSetCarta().stream().map(sc -> {
                     SetCarta setCarta = modelMapper.map(sc, SetCarta.class);
-                    setCarta.setCartaMonstro(cartaMonstroSalva);
                     return setCarta;
                 }).collect(Collectors.toList());
+
                 setCartaRepository.saveAll(listaSetCarta);
-//                cartaMonstro.setSetCartas(listaSetCarta);
             }
 
             return cartaMonstro;
