@@ -1,9 +1,7 @@
 package com.lucas.yugiohcards.service;
 
 import com.lucas.yugiohcards.dto.CartaMonstroDTO;
-import com.lucas.yugiohcards.dto.ImportacaoCartaDTO;
 import com.lucas.yugiohcards.model.CartaMonstro;
-import com.lucas.yugiohcards.model.SetCarta;
 import com.lucas.yugiohcards.repository.CartaMonstroRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +30,13 @@ public class CartaMonstroService {
     }
 
     public CartaMonstroDTO buscarCartaPorNome(String nomeCarta) {
+        CartaMonstroDTO cartaMonstroDTO = new CartaMonstroDTO();
+
         CartaMonstro cartaMonstro = repository.findByNomeEquals(nomeCarta);
 
-        CartaMonstroDTO cartaMonstroDTO = modelMapper.map(cartaMonstro, CartaMonstroDTO.class);
+        if(cartaMonstro != null) {
+            cartaMonstroDTO = modelMapper.map(cartaMonstro, CartaMonstroDTO.class);
+        }
 
         return cartaMonstroDTO;
     }

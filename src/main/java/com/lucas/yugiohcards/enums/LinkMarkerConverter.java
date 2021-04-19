@@ -4,10 +4,10 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class AtributoConverter implements AttributeConverter<AtributoEnum, String> {
+public class LinkMarkerConverter implements AttributeConverter<LinkMakerEnum, String> {
 
     @Override
-    public String convertToDatabaseColumn(AtributoEnum atributo) {
+    public String convertToDatabaseColumn(LinkMakerEnum atributo) {
         if (atributo != null) {
             return atributo.getCodigo();
         } else {
@@ -16,11 +16,11 @@ public class AtributoConverter implements AttributeConverter<AtributoEnum, Strin
     }
 
     @Override
-    public AtributoEnum convertToEntityAttribute(String dbData) {
+    public LinkMakerEnum convertToEntityAttribute(String dbData) {
         if (dbData == null) {
             return null;
         }
-        for (AtributoEnum x : AtributoEnum.values()) {
+        for (LinkMakerEnum x : LinkMakerEnum.values()) {
             if (dbData.toUpperCase().equals(x.getCodigo())) {
                 return x;
             }

@@ -1,6 +1,5 @@
 package com.lucas.yugiohcards.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,13 +11,12 @@ import java.io.Serializable;
 @EqualsAndHashCode()
 public class ImagemCartaDTO implements Serializable {
 
-    @JsonProperty("id")
+	private static final long serialVersionUID = 1L;
+
     private Long codigo;
 
-    @JsonProperty("image_url")
     private String url;
 
-    @JsonProperty("image_url_small")
     private String urlImagemPequena;
 
 }

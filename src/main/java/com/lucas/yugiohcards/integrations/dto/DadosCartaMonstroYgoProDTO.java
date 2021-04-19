@@ -1,6 +1,7 @@
-package com.lucas.yugiohcards.dto;
+package com.lucas.yugiohcards.integrations.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lucas.yugiohcards.dto.BanListInfoDTO;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class DadosCartaMonstroDTO implements Serializable {
+public class DadosCartaMonstroYgoProDTO implements Serializable {
 
     @JsonProperty("id")
     private String codigo;
@@ -22,6 +23,9 @@ public class DadosCartaMonstroDTO implements Serializable {
 
     @JsonProperty("type")
     private String tipo;
+
+    @JsonProperty("desc")
+    private String descricao;
 
     @JsonProperty("atk")
     private BigDecimal ataque;
@@ -54,12 +58,12 @@ public class DadosCartaMonstroDTO implements Serializable {
     private BanListInfoDTO banListInfo;
 
     @JsonProperty("card_sets")
-    private List<SetCartaDTO> setCarta;
+    private List<SetCartaYgoProDTO> setsCarta;
 
     @JsonProperty("card_images")
-    private List<ImagemCartaDTO> imagemCarta;
+    private List<ImagemCartaYgoProDTO> imagensCarta;
 
     @JsonProperty("card_prices")
-    private List<PrecoCartaDTO> precoCarta;
+    private List<PrecoCartaYgoProDTO> precosCarta;
 
 }

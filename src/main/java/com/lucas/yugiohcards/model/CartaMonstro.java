@@ -1,18 +1,12 @@
 package com.lucas.yugiohcards.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lucas.yugiohcards.dto.BanListInfoDTO;
-import com.lucas.yugiohcards.dto.ImagemCartaDTO;
-import com.lucas.yugiohcards.dto.PrecoCartaDTO;
-import com.lucas.yugiohcards.enums.AtributoConverter;
-import com.lucas.yugiohcards.enums.AtributoEnum;
-import com.lucas.yugiohcards.enums.StatusCartaConverter;
-import com.lucas.yugiohcards.enums.StatusCartaEnum;
+import com.lucas.yugiohcards.enums.LinkMakerEnum;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -35,6 +29,9 @@ public class CartaMonstro implements Serializable {
 
     private String tipo;
 
+    @Column(length = 2048)
+    private String descricao;
+
     private BigDecimal ataque;
 
     private BigDecimal defesa;
@@ -51,6 +48,8 @@ public class CartaMonstro implements Serializable {
 
     private Long linkValor;
 
+    private String marcadorLink;
+
     private String statusBanListTcg;
 
     private String statusBanListOcg;
@@ -59,14 +58,14 @@ public class CartaMonstro implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_monstro_id")
-    private List<SetCarta> setCarta;
+    private List<SetCarta> setsCarta;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_monstro_id")
-    private List<ImagemCarta> imagemCarta;
+    private List<ImagemCarta> imagensCarta;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_monstro_id")
-    private List<PrecoCarta> precoCarta;
+    private List<PrecoCarta> precosCarta;
 
 }

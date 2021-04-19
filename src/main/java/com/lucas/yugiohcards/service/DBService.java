@@ -1,20 +1,14 @@
 package com.lucas.yugiohcards.service;
 
-import com.lucas.yugiohcards.dto.ImportacaoCartaDTO;
+import com.lucas.yugiohcards.integrations.dto.ImportacaoCartaYgoProDTO;
+import com.lucas.yugiohcards.integrations.client.YgoProClient;
 import com.lucas.yugiohcards.model.CartaMonstro;
-import com.lucas.yugiohcards.model.SetCarta;
 import com.lucas.yugiohcards.repository.CartaMonstroRepository;
-import com.lucas.yugiohcards.repository.SetCartaRepository;
-import com.lucas.yugiohcards.repository.TipoCartaRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,45 +19,62 @@ public class DBService {
     private CartaMonstroRepository cartaMonstroRepository;
 
     @Autowired
-    private TipoCartaRepository tipoCartaRepository;
-
-    @Autowired
-    private SetCartaRepository setCartaRepository;
-
-    @Autowired
-    private WebClient webClientYgoPro;
+    private YgoProClient ygoProClient;
 
     private ModelMapper modelMapper = new ModelMapper();
 
     @Transactional
-    public ImportacaoCartaDTO importacaoCartas(String tipo) {
+    public void importarTodoasCartas() {
+        ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO = ygoProClient.buscarTodosCards();
 
-        Mono<ImportacaoCartaDTO> monoCards;
-        if(tipo != null && !tipo.isEmpty()) {
-            monoCards = webClientYgoPro
-                    .method(HttpMethod.GET)
-                    .uri("?type="+tipo+"num=1&offset=0")
-                    .retrieve()
-                    .bodyToMono(ImportacaoCartaDTO.class);
-        } else {
-            monoCards = webClientYgoPro
-                    .method(HttpMethod.GET)
-//                    .uri("?cardset=Metal Raiders&num=1&offset=0")
-                    .retrieve()
-                    .bodyToMono(ImportacaoCartaDTO.class);
-        }
-
-        ImportacaoCartaDTO importacaoCartaDTO = monoCards.block();
-
-        List<CartaMonstro> listaCartaMonstro = importacaoCartaDTO.getData().stream().map(c -> {
+        List<CartaMonstro> listaCartaMonstro = importacaoCartaYgoProDTO.getData().stream().map(c -> {
             CartaMonstro cartaMonstro = modelMapper.map(c, CartaMonstro.class);
+
+            cartaMonstro.setStatusBanListGoat("Ilimitado");
+            cartaMonstro.setStatusBanListTcg("Ilimitado");
+            cartaMonstro.setStatusBanListOcg("Ilimitado");
+
+            if(c.getMarcadorLink() != null && c.getMarcadorLink().size() > 0) {
+                String marcadorLink = String.join(";", c.getMarcadorLink());
+
+                cartaMonstro.setMarcadorLink(marcadorLink);
+            }
+
+            if(c.getBanListInfo() != null) {
+                String banGoat = retornaStatusBanlist(c.getBanListInfo().getStatusGoat());
+                String banTcg = retornaStatusBanlist(c.getBanListInfo().getStatusTcg());
+                String banOcg = retornaStatusBanlist(c.getBanListInfo().getStatusOcg());
+
+                cartaMonstro.setStatusBanListGoat(banGoat);
+                cartaMonstro.setStatusBanListTcg(banTcg);
+                cartaMonstro.setStatusBanListOcg(banOcg);
+            }
 
             return cartaMonstro;
         }).collect(Collectors.toList());
 
         cartaMonstroRepository.saveAll(listaCartaMonstro);
+    }
 
-        return importacaoCartaDTO;
-     }
+    private String retornaStatusBanlist(String status) {
+
+        if(status == null) {
+            return "Ilimitado";
+        }
+
+        switch (status) {
+            case "Limited":
+                status = "Limitado";
+                break;
+            case "Semi-Limited":
+                status = "Semi-Limitado";
+                break;
+            case "Banned":
+                status = "Banido";
+                break;
+        }
+
+        return status;
+    }
 
 }

@@ -2,7 +2,7 @@ package com.lucas.yugiohcards.enums;
 
 import lombok.Getter;
 
-public enum AtributoEnum {
+public enum LinkMakerEnum {
     DARK("DARK"),
     EARTH("EARTH"),
     FIRE("FIRE"),
@@ -14,7 +14,7 @@ public enum AtributoEnum {
     @Getter
     private String codigo;
 
-    AtributoEnum(String codigo) {
+    LinkMakerEnum(String codigo) {
         this.codigo = codigo;
     }
 

@@ -1,7 +1,7 @@
 package com.lucas.yugiohcards.controller;
 
 import com.lucas.yugiohcards.dto.CartaMonstroDTO;
-import com.lucas.yugiohcards.dto.ImportacaoCartaDTO;
+import com.lucas.yugiohcards.integrations.dto.ImportacaoCartaYgoProDTO;
 import com.lucas.yugiohcards.model.CartaMonstro;
 import com.lucas.yugiohcards.service.CartaMonstroService;
 import org.modelmapper.ModelMapper;
@@ -25,8 +25,8 @@ public class CartaMonstroController {
 	private ModelMapper model = new ModelMapper();
     
     @PostMapping
-    public ResponseEntity<CartaMonstro> save(@Valid @RequestBody ImportacaoCartaDTO importacaoCartaDTO) {
-        CartaMonstro cartaMonstro = model.map(importacaoCartaDTO, CartaMonstro.class);
+    public ResponseEntity<CartaMonstro> save(@Valid @RequestBody ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO) {
+        CartaMonstro cartaMonstro = model.map(importacaoCartaYgoProDTO, CartaMonstro.class);
 
         cartaMonstro = cartaMonstroService.save(cartaMonstro);
 
@@ -53,8 +53,8 @@ public class CartaMonstroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CartaMonstro> update(@Valid @RequestBody ImportacaoCartaDTO importacaoCartaDTO, @PathVariable Long id) {
-        CartaMonstro cartaMonstro = model.map(importacaoCartaDTO, CartaMonstro.class);
+    public ResponseEntity<CartaMonstro> update(@Valid @RequestBody ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO, @PathVariable Long id) {
+        CartaMonstro cartaMonstro = model.map(importacaoCartaYgoProDTO, CartaMonstro.class);
         cartaMonstro.setId(id);
 
         cartaMonstroService.save(cartaMonstro);

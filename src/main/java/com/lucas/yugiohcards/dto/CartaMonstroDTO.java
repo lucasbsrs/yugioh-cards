@@ -21,6 +21,8 @@ public class CartaMonstroDTO implements Serializable {
 
     private String tipo;
 
+    private String descricao;
+
     private BigDecimal ataque;
 
     private BigDecimal defesa;
@@ -37,12 +39,18 @@ public class CartaMonstroDTO implements Serializable {
 
     private Long linkValor;
 
+    private String marcadorLink;
+
     private String statusBanListTcg;
 
     private String statusBanListOcg;
 
     private String statusBanListGoat;
 
-    private List<SetCartaDTO> setCarta;
+    private List<SetCartaDTO> setsCarta;
+
+    private List<ImagemCartaDTO> imagensCarta;
+
+    private List<PrecoCartaDTO> precosCarta;
 
 }
