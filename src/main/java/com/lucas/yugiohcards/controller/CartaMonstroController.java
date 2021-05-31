@@ -2,7 +2,7 @@ package com.lucas.yugiohcards.controller;
 
 import com.lucas.yugiohcards.dto.CartaMonstroDTO;
 import com.lucas.yugiohcards.integrations.dto.ImportacaoCartaYgoProDTO;
-import com.lucas.yugiohcards.model.CartaMonstro;
+import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.service.CartaMonstroService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +25,14 @@ public class CartaMonstroController {
 	private ModelMapper model = new ModelMapper();
     
     @PostMapping
-    public ResponseEntity<CartaMonstro> save(@Valid @RequestBody ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO) {
-        CartaMonstro cartaMonstro = model.map(importacaoCartaYgoProDTO, CartaMonstro.class);
+    public ResponseEntity<Carta> save(@Valid @RequestBody ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO) {
+        Carta carta = model.map(importacaoCartaYgoProDTO, Carta.class);
 
-        cartaMonstro = cartaMonstroService.save(cartaMonstro);
+        carta = cartaMonstroService.save(carta);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(cartaMonstro.getId())
+				.buildAndExpand(carta.getId())
 				.toUri();
 
 		return ResponseEntity.created(location).build();
@@ -53,13 +53,13 @@ public class CartaMonstroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CartaMonstro> update(@Valid @RequestBody ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO, @PathVariable Long id) {
-        CartaMonstro cartaMonstro = model.map(importacaoCartaYgoProDTO, CartaMonstro.class);
-        cartaMonstro.setId(id);
+    public ResponseEntity<Carta> update(@Valid @RequestBody ImportacaoCartaYgoProDTO importacaoCartaYgoProDTO, @PathVariable Long id) {
+        Carta carta = model.map(importacaoCartaYgoProDTO, Carta.class);
+        carta.setId(id);
 
-        cartaMonstroService.save(cartaMonstro);
+        cartaMonstroService.save(carta);
 
-        return new ResponseEntity<CartaMonstro>(cartaMonstro, HttpStatus.OK);
+        return new ResponseEntity<Carta>(carta, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

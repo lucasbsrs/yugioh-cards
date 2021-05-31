@@ -1,6 +1,5 @@
 package com.lucas.yugiohcards.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,7 +30,7 @@ public class PrecoCarta implements Serializable {
     private String coolstuffinc;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_monstro_id")
-    private CartaMonstro cartaMonstro;
+    @JoinColumn(name = "carta_id")
+    private Carta carta;
 
 }

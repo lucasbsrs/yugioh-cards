@@ -1,12 +1,12 @@
 package com.lucas.yugiohcards.repository;
 
-import com.lucas.yugiohcards.model.CartaMonstro;
+import com.lucas.yugiohcards.model.Carta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartaMonstroRepository extends JpaRepository<CartaMonstro, Long> {
+public interface CartaMonstroRepository extends JpaRepository<Carta, Long> {
 
-    CartaMonstro findByNomeEquals(String nome);
+    Carta findByNomeEquals(String nome);
 
 }

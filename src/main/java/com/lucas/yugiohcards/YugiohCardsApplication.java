@@ -11,10 +11,9 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
-@EnableFeignClients("com.lucas.yugiohcards.integrations.client")
 public class YugiohCardsApplication {
 
-    @Value("${integration.ygopro.url}")
+    @Value("${ygopro.url}")
     private String ygoProUrl;
 
     @Bean

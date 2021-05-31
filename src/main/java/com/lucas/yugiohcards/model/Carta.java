@@ -1,12 +1,10 @@
 package com.lucas.yugiohcards.model;
 
-import com.lucas.yugiohcards.enums.LinkMakerEnum;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -15,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode()
 @Entity
-public class CartaMonstro implements Serializable {
+public class Carta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,15 +55,15 @@ public class CartaMonstro implements Serializable {
     private String statusBanListGoat;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_monstro_id")
+    @JoinColumn(name = "carta_id")
     private List<SetCarta> setsCarta;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_monstro_id")
+    @JoinColumn(name = "carta_id")
     private List<ImagemCarta> imagensCarta;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_monstro_id")
+    @JoinColumn(name = "carta_id")
     private List<PrecoCarta> precosCarta;
 
 }

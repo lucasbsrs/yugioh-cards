@@ -1,7 +1,7 @@
 package com.lucas.yugiohcards.service;
 
 import com.lucas.yugiohcards.dto.CartaMonstroDTO;
-import com.lucas.yugiohcards.model.CartaMonstro;
+import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.repository.CartaMonstroRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class CartaMonstroService {
     private ModelMapper modelMapper = new ModelMapper();
 
     public List<CartaMonstroDTO> findAll() {
-        List<CartaMonstro> listaCartaMonstro = repository.findAll();
+        List<Carta> listaCarta = repository.findAll();
 
-        return listaCartaMonstro.stream().map(c -> {
+        return listaCarta.stream().map(c -> {
             CartaMonstroDTO cartaMonstroDTO = modelMapper.map(c, CartaMonstroDTO.class);
 
             return cartaMonstroDTO;
@@ -32,16 +32,16 @@ public class CartaMonstroService {
     public CartaMonstroDTO buscarCartaPorNome(String nomeCarta) {
         CartaMonstroDTO cartaMonstroDTO = new CartaMonstroDTO();
 
-        CartaMonstro cartaMonstro = repository.findByNomeEquals(nomeCarta);
+        Carta carta = repository.findByNomeEquals(nomeCarta);
 
-        if(cartaMonstro != null) {
-            cartaMonstroDTO = modelMapper.map(cartaMonstro, CartaMonstroDTO.class);
+        if(carta != null) {
+            cartaMonstroDTO = modelMapper.map(carta, CartaMonstroDTO.class);
         }
 
         return cartaMonstroDTO;
     }
 
-    public CartaMonstro save(CartaMonstro monsterCard){
+    public Carta save(Carta monsterCard){
         return repository.save(monsterCard);
     }
 
