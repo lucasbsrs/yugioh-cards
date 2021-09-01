@@ -1,4 +1,4 @@
-package com.lucas.yugiohcards.integrations.dto;
+package com.lucas.yugiohcards.integrations.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
-public class ImportacaoCartaYgoProDTO implements Serializable {
+public class ImportacaoCartaResponse implements Serializable {
 
     @JsonProperty("data")
-    List<DadosCartaMonstroYgoProDTO> data;
+    List<DadosCartaMonstroResponse> data;
 
 }

@@ -1,4 +1,4 @@
-package com.lucas.yugiohcards.integrations.dto;
+package com.lucas.yugiohcards.integrations.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class ImagemCartaYgoProDTO implements Serializable {
+public class ImagemCartaResponse implements Serializable {
 
     @JsonProperty("id")
     private Long codigo;

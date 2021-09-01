@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartaMonstroRepository extends JpaRepository<Carta, Long> {
+public interface CartaRepository extends JpaRepository<Carta, Long> {
 
     Carta findByNomeEquals(String nome);
 

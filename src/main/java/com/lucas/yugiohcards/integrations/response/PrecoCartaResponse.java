@@ -1,4 +1,4 @@
-package com.lucas.yugiohcards.integrations.dto;
+package com.lucas.yugiohcards.integrations.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class PrecoCartaYgoProDTO implements Serializable {
+public class PrecoCartaResponse implements Serializable {
 
     @JsonProperty("cardmarket_price")
     private String cardmarket;

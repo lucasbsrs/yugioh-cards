@@ -1,4 +1,4 @@
-package com.lucas.yugiohcards.dto;
+package com.lucas.yugiohcards.integrations.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class BanListInfoDTO implements Serializable {
+public class BanListInfoResponse implements Serializable {
 
     @JsonProperty("ban_tcg")
     private String statusTcg;
