@@ -30,6 +30,11 @@ public class CartaService {
 
                 Carta carta = modelMapper.map(c, Carta.class);
 
+                if(c.getMarcadorLink() != null && !c.getMarcadorLink().isEmpty()) {
+                    String marcadorLink = c.getMarcadorLink().stream().map(m -> String.valueOf(m)).collect(Collectors.joining(";"));
+                    carta.setMarcadorLink(marcadorLink);
+                }
+
                 return carta;
             }).collect(Collectors.toList());
 
