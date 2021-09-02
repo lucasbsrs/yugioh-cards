@@ -22,7 +22,7 @@ public class CartaService {
 
     private ModelMapper modelMapper = new ModelMapper();
 
-    public ImportacaoCartaResponse importarTodasCartas() throws Exception {
+    public void importarTodasCartas() throws Exception {
         try{
             ImportacaoCartaResponse cartasImportadas = importadorCartasClient.buscarTodasCartas();
 
@@ -39,8 +39,6 @@ public class CartaService {
             }).collect(Collectors.toList());
 
             repository.saveAll(listaCartas);
-
-            return cartasImportadas;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
