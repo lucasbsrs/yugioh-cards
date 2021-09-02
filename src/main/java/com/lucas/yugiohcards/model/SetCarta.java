@@ -28,8 +28,8 @@ public class SetCarta implements Serializable {
 
     private String preco;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_id")
-    private Carta carta;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "carta_id")
+//    private Carta carta;
 
 }

@@ -57,13 +57,13 @@ public class Carta implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_id")
     private List<SetCarta> setsCarta;
-//
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "carta_id")
-//    private List<ImagemCarta> imagensCarta;
-//
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "carta_id")
-//    private List<PrecoCarta> precosCarta;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_id")
+    private List<ImagemCarta> imagensCarta;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_id")
+    private List<PrecoCarta> precosCarta;
 
 }

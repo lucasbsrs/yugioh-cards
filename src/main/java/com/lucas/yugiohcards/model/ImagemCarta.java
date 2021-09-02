@@ -25,8 +25,8 @@ public class ImagemCarta implements Serializable {
 
     private String urlImagemPequena;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_id")
-    private Carta carta;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "carta_id")
+//    private Carta carta;
 
 }
