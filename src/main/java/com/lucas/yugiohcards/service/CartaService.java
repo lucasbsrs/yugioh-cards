@@ -24,6 +24,7 @@ public class CartaService {
 
     public void importarTodasCartas() throws Exception {
         try{
+
             ImportacaoCartaResponse cartasImportadas = importadorCartasClient.buscarTodasCartas();
 
             List<Carta> listaCartas = cartasImportadas.getData().stream().map(c -> {

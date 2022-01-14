@@ -14,3 +14,24 @@ spring:
 
 importador-cartas:
   url: http://localhost:8081/importacao
+
+logging.level:
+  org:
+    hibernate:
+      SQL: TRACE
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
+    springframework:
+      web: DEBUG
+      data: debug
+
+
+feign:
+  client:
+    config:
+      default:
+        #connectTimeout: 5000
+        #readTimeout: 5000
+        loggerLevel: full
