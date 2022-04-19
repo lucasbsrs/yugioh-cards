@@ -12,9 +12,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-importador-cartas:
-  url: http://localhost:8081/importacao
-
 logging.level:
   org:
     hibernate:
@@ -26,7 +23,6 @@ logging.level:
     springframework:
       web: DEBUG
       data: debug
-
 
 feign:
   client:

@@ -24,6 +24,8 @@ public class CartaController {
     @PutMapping("/atualizar-codigos")
     public ResponseEntity<?> atualizarCodigos() {
 
+        cartaService.atualizarCodigosCartas();
+
         return ResponseEntity.noContent().build();
     }
 

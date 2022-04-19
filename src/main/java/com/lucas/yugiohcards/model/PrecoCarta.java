@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
@@ -29,6 +30,7 @@ public class PrecoCarta implements Serializable {
 
     private String coolstuffinc;
 
+    @ToString.Exclude
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_id")
     private Carta carta;

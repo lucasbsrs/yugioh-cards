@@ -9,6 +9,7 @@ import java.util.List;
 
 @Data
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
@@ -27,7 +28,7 @@ public class Carta implements Serializable {
 
     private String tipo;
 
-    @Column(length = 2048)
+    @Column(length = 1200)
     private String descricao;
 
     private BigDecimal ataque;
@@ -62,6 +63,7 @@ public class Carta implements Serializable {
     @JoinColumn(name = "carta_id")
     private List<ImagemCarta> imagensCarta;
 
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_id")
     private List<PrecoCarta> precosCarta;
