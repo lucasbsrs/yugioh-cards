@@ -6,15 +6,20 @@ import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
 import com.lucas.yugiohcards.integrations.response.ImportacaoCartaResponse;
 import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.repository.CartaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CartaService {
 
@@ -25,6 +30,10 @@ public class CartaService {
     private YgoProClient ygoProClient;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    private final Long TAMANHO_LISTA_CHANGE_LOG = 10L;
 
     public void importarTodasCartas() throws Exception {
         try{
@@ -48,15 +57,12 @@ public class CartaService {
         }
     }
 
-    public void atualizarCodigosCartas() {
-
-//        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime dateTeste = LocalDateTime.parse("2022-02-19 06:46:28", formatter2);
+    public List<Carta> atualizarCodigosCartas() {
 
         ChangeLogResponse changeLogResponse = ygoProClient.consultarChangeLogId();
 
         List<ChangeLogDTO> listaChangeLogAtualizar = changeLogResponse.getData().stream()
-                .skip(Math.max(0, changeLogResponse.getData().size() - 10))
+                .skip(Math.max(0, changeLogResponse.getData().size() - TAMANHO_LISTA_CHANGE_LOG))
                 .map(x -> {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime dateTime = LocalDateTime.parse(x.getDate(), formatter);
@@ -73,12 +79,19 @@ public class CartaService {
                 .filter(c -> c.getDataAtualizacao().isAfter(LocalDateTime.now()))
                 .collect(Collectors.toList());
 
-        List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogDTO::getNewId).collect(Collectors.toList());
+        List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogDTO::getOldId).collect(Collectors.toList());
 
         List<Carta> cartas = repository.findByCodigoIn(listaChangeLogCodigos);
 
-        System.out.println(cartas);
+        cartas.stream().forEach(carta -> {
+            ChangeLogDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
 
+            carta.setCodigo(changeLogAtualizarRetorno.getNewId());
+        });
+
+        cartas = repository.saveAll(cartas);
+
+        return cartas;
     }
     
 }
