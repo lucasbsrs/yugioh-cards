@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -83,13 +82,15 @@ public class CartaService {
 
         List<Carta> cartas = repository.findByCodigoIn(listaChangeLogCodigos);
 
-        cartas.stream().forEach(carta -> {
-            ChangeLogDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
+        if(!cartas.isEmpty()) {
+            cartas.stream().forEach(carta -> {
+                ChangeLogDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
 
-            carta.setCodigo(changeLogAtualizarRetorno.getNewId());
-        });
+                carta.setCodigo(changeLogAtualizarRetorno.getNewId());
+            });
 
-        cartas = repository.saveAll(cartas);
+            cartas = repository.saveAll(cartas);
+        }
 
         return cartas;
     }

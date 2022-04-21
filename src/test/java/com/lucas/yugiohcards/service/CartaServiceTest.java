@@ -56,12 +56,33 @@ public class CartaServiceTest {
         List<Carta> cartasRetorno = cartaService.atualizarCodigosCartas();
 
         assertNotNull(cartasRetorno);
-        assertEquals(cartasRetorno.get(0).getCodigo(), changeLogResponse.getData().get(0).getNewId());
+        assertEquals(changeLogResponse.getData().get(0).getNewId(), cartasRetorno.get(0).getCodigo());
     }
 
     @Test
-    void naoDeveAtualizarSeDataChangeLogForMenorQueData() {
+    @DisplayName("Não deve atualizar nenhum código caso data atual seja maior que a data do ChangeLogID")
+    void naoDeveAtualizarCodigoCarta() {
 
+        String codigoAntigo = "1111";
+        String codigoNovo = "2222";
+        LocalDateTime dataAtualMaisUm = LocalDateTime.now().minusDays(1);
+
+        Carta carta = criarCarta(codigoAntigo, "Carta Teste");
+        Carta cartaAtualizada = criarCarta(codigoNovo, "Carta Teste");
+
+        ChangeLogResponse changeLogResponse = criarChangeLogResponse(codigoNovo, codigoAntigo, dataAtualMaisUm);
+
+        List<String> listaCodigosAntigos = Arrays.asList(codigoAntigo);
+        List<Carta> listaCartas = Arrays.asList(carta);
+        List<Carta> listaCartasAtualizadas = Arrays.asList(cartaAtualizada);
+
+        when(ygoProClient.consultarChangeLogId()).thenReturn(changeLogResponse);
+        when(repository.findByCodigoIn(listaCodigosAntigos)).thenReturn(listaCartas);
+        when(repository.saveAll(listaCartasAtualizadas)).thenReturn(listaCartasAtualizadas);
+
+        List<Carta> cartasRetorno = cartaService.atualizarCodigosCartas();
+
+        assertEquals(0, cartasRetorno.size());
     }
 
     private Carta criarCarta(String codigo, String nome) {
