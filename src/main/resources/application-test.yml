@@ -4,8 +4,6 @@ spring:
       enabled: true
   datasource:
     url: jdbc:h2:mem:testdb
-    data-username: sa
-    data-password:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
@@ -14,6 +12,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      password:
+      username: sa
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 ygopro:
   url: https://db.ygoprodeck.com/api/v7

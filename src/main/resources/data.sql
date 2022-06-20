@@ -1,0 +1,1 @@
+INSERT INTO Pessoa(id, nome, sobrenome, endereco, cidade, valor) VALUES (1, 'Lucas', 'Silva', 'Rua Marcilio Dias', 'São Leopoldo', 100.10);
