@@ -5,11 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Data
-@Builder
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
@@ -57,15 +55,10 @@ public class Carta implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_id")
-    private List<SetCarta> setsCarta;
+    private Set<SetCarta> setsCarta;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carta_id")
-    private List<ImagemCarta> imagensCarta;
-
-    @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_id")
-    private List<PrecoCarta> precosCarta;
+    private Set<ImagemCarta> imagensCarta;
 
 }

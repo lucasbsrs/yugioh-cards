@@ -1,5 +1,7 @@
 package com.lucas.yugiohcards.service;
 
+import com.lucas.yugiohcards.adapters.CartaAdapter;
+import com.lucas.yugiohcards.domains.CartaRecord;
 import com.lucas.yugiohcards.domains.ChangeLogDTO;
 import com.lucas.yugiohcards.integrations.client.YgoProClient;
 import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
@@ -94,5 +96,10 @@ public class CartaService {
 
         return cartas;
     }
-    
+
+    public CartaRecord buscarPorId(Long id) {
+        Carta carta = repository.findById(id).get();
+
+        return CartaAdapter.toCartaRecord(carta);
+    }
 }

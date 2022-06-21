@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -27,9 +28,5 @@ public class SetCarta implements Serializable {
     private String codigoRaridade;
 
     private String preco;
-
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "carta_id")
-//    private Carta carta;
 
 }

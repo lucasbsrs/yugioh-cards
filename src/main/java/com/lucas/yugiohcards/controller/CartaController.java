@@ -1,5 +1,6 @@
 package com.lucas.yugiohcards.controller;
 
+import com.lucas.yugiohcards.domains.CartaRecord;
 import com.lucas.yugiohcards.domains.PessoaDTO;
 import com.lucas.yugiohcards.model.Pessoa;
 import com.lucas.yugiohcards.repository.PessoaRepository;
@@ -23,6 +24,11 @@ public class CartaController {
     private PessoaRepository pessoaRepository;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CartaRecord> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(cartaService.buscarPorId(id));
+    }
 
 	@PostMapping("/importar-cartas")
     @ResponseStatus(HttpStatus.OK)
