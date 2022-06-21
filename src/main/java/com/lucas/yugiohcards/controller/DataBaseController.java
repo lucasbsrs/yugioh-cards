@@ -1,7 +1,6 @@
 package com.lucas.yugiohcards.controller;
 
-import com.lucas.yugiohcards.service.CartaService;
-import org.modelmapper.ModelMapper;
+import com.lucas.yugiohcards.service.DataBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +11,12 @@ import org.springframework.web.bind.annotation.*;
 public class DataBaseController {
 
     @Autowired
-    private CartaService cartaService;
-
-    private ModelMapper modelMapper = new ModelMapper();
+    private DataBaseService dataBaseService;
 
 	@PostMapping("/importar-cartas")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> importarTodasCartas() throws Exception {
-        cartaService.importarTodasCartas();
+        dataBaseService.importarTodasCartas();
 
         return ResponseEntity.ok().build();
     }
@@ -27,7 +24,7 @@ public class DataBaseController {
     @PutMapping("/atualizar-codigos")
     public ResponseEntity<?> atualizarCodigos() {
 
-        cartaService.atualizarCodigosCartas();
+        dataBaseService.atualizarCodigosCartas();
 
         return ResponseEntity.noContent().build();
     }
