@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cartas")
 public class CartaController {
@@ -24,6 +26,11 @@ public class CartaController {
     private PessoaRepository pessoaRepository;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @GetMapping
+    public ResponseEntity<List<CartaRecord>> buscarTodasCartas() {
+        return ResponseEntity.ok(cartaService.buscarTodasCartas());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CartaRecord> buscarPorId(@PathVariable Long id) {
@@ -67,11 +74,6 @@ public class CartaController {
         pessoaRepository.save(pessoa);
 
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/consultar-pessoa/{id}")
-    public ResponseEntity<?> consultarPessoa(@PathVariable Long id) {
-        return ResponseEntity.ok(pessoaRepository.findById(id));
     }
 
 }

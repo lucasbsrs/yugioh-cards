@@ -3,6 +3,7 @@ package com.lucas.yugiohcards.service;
 import com.lucas.yugiohcards.adapters.CartaAdapter;
 import com.lucas.yugiohcards.domains.CartaRecord;
 import com.lucas.yugiohcards.domains.ChangeLogDTO;
+import com.lucas.yugiohcards.exceptions.NotFoundException;
 import com.lucas.yugiohcards.integrations.client.YgoProClient;
 import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
 import com.lucas.yugiohcards.integrations.response.ImportacaoCartaResponse;
@@ -45,7 +46,7 @@ public class CartaService {
                 Carta carta = modelMapper.map(c, Carta.class);
 
                 if(c.getMarcadorLink() != null && !c.getMarcadorLink().isEmpty()) {
-                    String marcadorLink = c.getMarcadorLink().stream().map(m -> String.valueOf(m)).collect(Collectors.joining(";"));
+                    String marcadorLink = c.getMarcadorLink().stream().map(String::valueOf).collect(Collectors.joining(";"));
                     carta.setMarcadorLink(marcadorLink);
                 }
 
@@ -77,8 +78,7 @@ public class CartaService {
                             .build();
 
                 })
-                .filter(c -> c.getDataAtualizacao().isAfter(LocalDateTime.now()))
-                .collect(Collectors.toList());
+                .filter(c -> c.getDataAtualizacao().isAfter(LocalDateTime.now())).toList();
 
         List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogDTO::getOldId).collect(Collectors.toList());
 
@@ -98,8 +98,14 @@ public class CartaService {
     }
 
     public CartaRecord buscarPorId(Long id) {
-        Carta carta = repository.findById(id).get();
+        Carta carta = repository.findById(id).orElseThrow(() -> new NotFoundException("Carta não encontrada"));
 
         return CartaAdapter.toCartaRecord(carta);
+    }
+
+    public List<CartaRecord> buscarTodasCartas() {
+        List<Carta> cartas = repository.findAll();
+
+        return cartas.stream().map(CartaAdapter::toCartaRecord).toList();
     }
 }

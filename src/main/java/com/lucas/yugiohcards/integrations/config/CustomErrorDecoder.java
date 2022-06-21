@@ -11,9 +11,9 @@ public class CustomErrorDecoder implements ErrorDecoder {
     public Exception decode(String s, Response response) {
         switch (response.status()){
             case 400:
-                return new BadRequestException();
+                return new BadRequestException("");
             case 404:
-                return new NotFoundException();
+                return new NotFoundException("");
             default:
                 return new Exception("Generic error");
         }
