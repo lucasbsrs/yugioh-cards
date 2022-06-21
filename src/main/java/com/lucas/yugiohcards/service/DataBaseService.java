@@ -6,9 +6,9 @@ import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
 import com.lucas.yugiohcards.integrations.response.ImportacaoCartaResponse;
 import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.repository.CartaRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,20 +18,19 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class DataBaseService {
 
-    @Autowired
     private CartaRepository repository;
 
-    @Autowired
     private YgoProClient ygoProClient;
-
-    private ModelMapper modelMapper = new ModelMapper();
 
     private final Long TAMANHO_LISTA_CHANGE_LOG = 10L;
 
     public void importarTodasCartas() throws Exception {
         try{
+            ModelMapper modelMapper = new ModelMapper();
+
             ImportacaoCartaResponse cartasImportadas = ygoProClient.buscarTodasCartas();
 
             List<Carta> listaCartas = cartasImportadas.getData().stream().map(c -> {

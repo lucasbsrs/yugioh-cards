@@ -2,7 +2,7 @@ package com.lucas.yugiohcards.controller;
 
 import com.lucas.yugiohcards.domains.CartaRecord;
 import com.lucas.yugiohcards.service.CartaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/cartas")
 public class CartaController {
 
-    @Autowired
     private CartaService cartaService;
 
     @GetMapping
