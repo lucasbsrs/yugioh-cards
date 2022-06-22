@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
-public class DadosChangeLogResponse implements Serializable {
+public class DadosChangeLogIdResponse implements Serializable {
 
     @JsonProperty("name")
     private String nome;

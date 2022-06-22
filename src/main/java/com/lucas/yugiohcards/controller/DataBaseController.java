@@ -29,4 +29,12 @@ public class DataBaseController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/atualizar-nomes-cartas")
+    public ResponseEntity<?> atualizarNomeCartas() {
+
+        dataBaseService.atualizarNomeCartas();
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

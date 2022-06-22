@@ -1,6 +1,7 @@
 package com.lucas.yugiohcards.integrations.client;
 
-import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
+import com.lucas.yugiohcards.integrations.response.ChangeLogIdResponse;
+import com.lucas.yugiohcards.integrations.response.ChangeLogNameResponse;
 import com.lucas.yugiohcards.integrations.response.ImportacaoCartaResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,9 @@ public interface YgoProClient {
     ImportacaoCartaResponse buscarTodasCartas();
 
     @GetMapping("/changelogID.php")
-    ChangeLogResponse consultarChangeLogId();
+    ChangeLogIdResponse consultarChangeLogId();
+
+    @GetMapping("/changelogName.php")
+    ChangeLogNameResponse consultarChangeLogName();
 
 }

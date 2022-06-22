@@ -15,9 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties
-public class ChangeLogResponse implements Serializable {
+public class ChangeLogNameResponse implements Serializable {
 
     @JsonProperty("data")
-    List<DadosChangeLogResponse> data;
+    List<DadosChangeLogNameResponse> data;
 
 }

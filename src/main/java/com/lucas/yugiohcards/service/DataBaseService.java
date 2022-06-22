@@ -1,8 +1,10 @@
 package com.lucas.yugiohcards.service;
 
-import com.lucas.yugiohcards.domains.ChangeLogDTO;
+import com.lucas.yugiohcards.domains.ChangeLogIdDTO;
+import com.lucas.yugiohcards.domains.ChangeLogNameDTO;
 import com.lucas.yugiohcards.integrations.client.YgoProClient;
-import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
+import com.lucas.yugiohcards.integrations.response.ChangeLogIdResponse;
+import com.lucas.yugiohcards.integrations.response.ChangeLogNameResponse;
 import com.lucas.yugiohcards.integrations.response.ImportacaoCartaResponse;
 import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.repository.CartaRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,15 +56,17 @@ public class DataBaseService {
 
     public List<Carta> atualizarCodigosCartas() {
 
-        ChangeLogResponse changeLogResponse = ygoProClient.consultarChangeLogId();
+        ChangeLogIdResponse changeLogIdResponse = ygoProClient.consultarChangeLogId();
 
-        List<ChangeLogDTO> listaChangeLogAtualizar = changeLogResponse.getData().stream()
-                .skip(Math.max(0, changeLogResponse.getData().size() - TAMANHO_LISTA_CHANGE_LOG))
+        List<Carta> cartas = new ArrayList<>();
+
+        List<ChangeLogIdDTO> listaChangeLogAtualizar = changeLogIdResponse.getData().stream()
+                .skip(Math.max(0, changeLogIdResponse.getData().size() - TAMANHO_LISTA_CHANGE_LOG))
                 .map(x -> {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime dateTime = LocalDateTime.parse(x.getDate(), formatter);
 
-                    return ChangeLogDTO
+                    return ChangeLogIdDTO
                             .builder()
                             .nome(x.getNome())
                             .dataAtualizacao(dateTime)
@@ -72,13 +77,13 @@ public class DataBaseService {
                 })
                 .filter(c -> c.getDataAtualizacao().isAfter(LocalDateTime.now())).toList();
 
-        List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogDTO::getOldId).collect(Collectors.toList());
+        if(!listaChangeLogAtualizar.isEmpty()) {
+            List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogIdDTO::getOldId).collect(Collectors.toList());
 
-        List<Carta> cartas = repository.findByCodigoIn(listaChangeLogCodigos);
+            cartas = repository.findByCodigoIn(listaChangeLogCodigos);
 
-        if(!cartas.isEmpty()) {
             cartas.stream().forEach(carta -> {
-                ChangeLogDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
+                ChangeLogIdDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
 
                 carta.setCodigo(changeLogAtualizarRetorno.getNewId());
             });
@@ -87,5 +92,29 @@ public class DataBaseService {
         }
 
         return cartas;
+    }
+
+    public List<Carta> atualizarNomeCartas() {
+
+        ChangeLogNameResponse changeLogNameResponse = ygoProClient.consultarChangeLogName();
+
+        List<ChangeLogNameDTO> listaChangeLogNameResponse = changeLogNameResponse.getData().stream()
+                .limit(TAMANHO_LISTA_CHANGE_LOG)
+                .map(x -> {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime dateTime = LocalDateTime.parse(x.getDataAtualizacao(), formatter);
+
+                    return ChangeLogNameDTO
+                            .builder()
+                            .dataAtualizacao(dateTime)
+                            .nomeAntigo(x.getNomeAntigo())
+                            .nomeNovo(x.getNomeNovo())
+                            .build();
+
+                }).toList();
+
+        System.out.println(listaChangeLogNameResponse);
+
+        return null;
     }
 }

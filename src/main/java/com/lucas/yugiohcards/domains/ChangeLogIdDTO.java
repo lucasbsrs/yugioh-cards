@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ChangeLogDTO {
+public class ChangeLogIdDTO {
 
     private String nome;
 

@@ -1,8 +1,8 @@
 package com.lucas.yugiohcards.service;
 
 import com.lucas.yugiohcards.integrations.client.YgoProClient;
-import com.lucas.yugiohcards.integrations.response.ChangeLogResponse;
-import com.lucas.yugiohcards.integrations.response.DadosChangeLogResponse;
+import com.lucas.yugiohcards.integrations.response.ChangeLogIdResponse;
+import com.lucas.yugiohcards.integrations.response.DadosChangeLogIdResponse;
 import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.repository.CartaRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CartaServiceTest {
 
     @InjectMocks
-    private CartaService cartaService;
+    private DataBaseService dataBaseService;
 
     @Mock
     private YgoProClient ygoProClient;
@@ -43,20 +43,20 @@ public class CartaServiceTest {
         Carta carta = criarCarta(codigoAntigo, "Carta Teste");
         Carta cartaAtualizada = criarCarta(codigoNovo, "Carta Teste");
 
-        ChangeLogResponse changeLogResponse = criarChangeLogResponse(codigoNovo, codigoAntigo, dataAtualMaisUm);
+        ChangeLogIdResponse changeLogIdResponse = criarChangeLogResponse(codigoNovo, codigoAntigo, dataAtualMaisUm);
 
         List<String> listaCodigosAntigos = Arrays.asList(codigoAntigo);
         List<Carta> listaCartas = Arrays.asList(carta);
         List<Carta> listaCartasAtualizadas = Arrays.asList(cartaAtualizada);
 
-        when(ygoProClient.consultarChangeLogId()).thenReturn(changeLogResponse);
+        when(ygoProClient.consultarChangeLogId()).thenReturn(changeLogIdResponse);
         when(repository.findByCodigoIn(listaCodigosAntigos)).thenReturn(listaCartas);
         when(repository.saveAll(listaCartasAtualizadas)).thenReturn(listaCartasAtualizadas);
 
-        List<Carta> cartasRetorno = cartaService.atualizarCodigosCartas();
+        List<Carta> cartasRetorno = dataBaseService.atualizarCodigosCartas();
 
         assertNotNull(cartasRetorno);
-        assertEquals(changeLogResponse.getData().get(0).getNewId(), cartasRetorno.get(0).getCodigo());
+        assertEquals(changeLogIdResponse.getData().get(0).getNewId(), cartasRetorno.get(0).getCodigo());
     }
 
     @Test
@@ -70,17 +70,17 @@ public class CartaServiceTest {
         Carta carta = criarCarta(codigoAntigo, "Carta Teste");
         Carta cartaAtualizada = criarCarta(codigoNovo, "Carta Teste");
 
-        ChangeLogResponse changeLogResponse = criarChangeLogResponse(codigoNovo, codigoAntigo, dataAtualMaisUm);
+        ChangeLogIdResponse changeLogIdResponse = criarChangeLogResponse(codigoNovo, codigoAntigo, dataAtualMaisUm);
 
         List<String> listaCodigosAntigos = Arrays.asList(codigoAntigo);
         List<Carta> listaCartas = Arrays.asList(carta);
         List<Carta> listaCartasAtualizadas = Arrays.asList(cartaAtualizada);
 
-        when(ygoProClient.consultarChangeLogId()).thenReturn(changeLogResponse);
+        when(ygoProClient.consultarChangeLogId()).thenReturn(changeLogIdResponse);
         when(repository.findByCodigoIn(listaCodigosAntigos)).thenReturn(listaCartas);
         when(repository.saveAll(listaCartasAtualizadas)).thenReturn(listaCartasAtualizadas);
 
-        List<Carta> cartasRetorno = cartaService.atualizarCodigosCartas();
+        List<Carta> cartasRetorno = dataBaseService.atualizarCodigosCartas();
 
         assertEquals(0, cartasRetorno.size());
     }
@@ -94,10 +94,10 @@ public class CartaServiceTest {
         return carta;
     }
 
-    private ChangeLogResponse criarChangeLogResponse(String codigoNovo, String codigoAntigo, LocalDateTime dataHora){
+    private ChangeLogIdResponse criarChangeLogResponse(String codigoNovo, String codigoAntigo, LocalDateTime dataHora){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        DadosChangeLogResponse dadosChangeLogResponse = DadosChangeLogResponse
+        DadosChangeLogIdResponse dadosChangeLogIdResponse = DadosChangeLogIdResponse
                 .builder()
                 .date(dataHora.format(formatter))
                 .nome("Carta Teste")
@@ -105,9 +105,9 @@ public class CartaServiceTest {
                 .oldId(codigoAntigo)
                 .build();
 
-        List<DadosChangeLogResponse> listaDadosChangeLogResponse = Arrays.asList(dadosChangeLogResponse);
+        List<DadosChangeLogIdResponse> listaDadosChangeLogIdResponse = Arrays.asList(dadosChangeLogIdResponse);
 
-        return ChangeLogResponse.builder().data(listaDadosChangeLogResponse).build();
+        return ChangeLogIdResponse.builder().data(listaDadosChangeLogIdResponse).build();
     }
 
 }
