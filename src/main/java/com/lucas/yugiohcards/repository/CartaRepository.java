@@ -13,4 +13,6 @@ public interface CartaRepository extends JpaRepository<Carta, Long> {
 
     List<Carta> findByCodigoIn(List<String> codigos);
 
+    List<Carta> findByNomeIn(List<String> nomes);
+
 }

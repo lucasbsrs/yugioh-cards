@@ -5,6 +5,7 @@ import com.lucas.yugiohcards.domains.ChangeLogNameDTO;
 import com.lucas.yugiohcards.integrations.client.YgoProClient;
 import com.lucas.yugiohcards.integrations.response.ChangeLogIdResponse;
 import com.lucas.yugiohcards.integrations.response.ChangeLogNameResponse;
+import com.lucas.yugiohcards.integrations.response.CheckDatabaseVersionResponse;
 import com.lucas.yugiohcards.integrations.response.ImportacaoCartaResponse;
 import com.lucas.yugiohcards.model.Carta;
 import com.lucas.yugiohcards.repository.CartaRepository;
@@ -56,14 +57,19 @@ public class DataBaseService {
 
     public List<Carta> atualizarCodigosCartas() {
 
-        ChangeLogIdResponse changeLogIdResponse = ygoProClient.consultarChangeLogId();
-
         List<Carta> cartas = new ArrayList<>();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        ChangeLogIdResponse changeLogIdResponse = ygoProClient.consultarChangeLogId();
+
+        List<CheckDatabaseVersionResponse> versaoDataBase = consultarVersaoDataBase();
+
+        LocalDateTime dateUpdateDataBaseVersion = LocalDateTime.parse(versaoDataBase.get(0).getLastUpdate(), formatter);
+
         List<ChangeLogIdDTO> listaChangeLogAtualizar = changeLogIdResponse.getData().stream()
-                .skip(Math.max(0, changeLogIdResponse.getData().size() - TAMANHO_LISTA_CHANGE_LOG))
+                .filter(p -> LocalDateTime.parse(p.getDate(), formatter).isAfter(dateUpdateDataBaseVersion.minusDays(21)))
                 .map(x -> {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime dateTime = LocalDateTime.parse(x.getDate(), formatter);
 
                     return ChangeLogIdDTO
@@ -74,15 +80,14 @@ public class DataBaseService {
                             .newId(x.getNewId())
                             .build();
 
-                })
-                .filter(c -> c.getDataAtualizacao().isAfter(LocalDateTime.now())).toList();
+                }).toList();
 
         if(!listaChangeLogAtualizar.isEmpty()) {
             List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogIdDTO::getOldId).collect(Collectors.toList());
 
             cartas = repository.findByCodigoIn(listaChangeLogCodigos);
 
-            cartas.stream().forEach(carta -> {
+            cartas.forEach(carta -> {
                 ChangeLogIdDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
 
                 carta.setCodigo(changeLogAtualizarRetorno.getNewId());
@@ -96,12 +101,19 @@ public class DataBaseService {
 
     public List<Carta> atualizarNomeCartas() {
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        List<Carta> cartas = new ArrayList<>();
+
         ChangeLogNameResponse changeLogNameResponse = ygoProClient.consultarChangeLogName();
 
+        List<CheckDatabaseVersionResponse> checkDatabaseVersionResponse = consultarVersaoDataBase();
+
+        LocalDateTime dateUpdateDataBaseVersion = LocalDateTime.parse(checkDatabaseVersionResponse.get(0).getLastUpdate(), formatter);
+
         List<ChangeLogNameDTO> listaChangeLogNameResponse = changeLogNameResponse.getData().stream()
-                .limit(TAMANHO_LISTA_CHANGE_LOG)
+                .filter(p -> LocalDateTime.parse(p.getDataAtualizacao(), formatter).isAfter(dateUpdateDataBaseVersion.minusDays(10)))
                 .map(x -> {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime dateTime = LocalDateTime.parse(x.getDataAtualizacao(), formatter);
 
                     return ChangeLogNameDTO
@@ -113,8 +125,32 @@ public class DataBaseService {
 
                 }).toList();
 
-        System.out.println(listaChangeLogNameResponse);
+        if(!listaChangeLogNameResponse.isEmpty()) {
+            List<String> listaChangeLogNomes = listaChangeLogNameResponse.stream()
+                    .map(ChangeLogNameDTO::getNomeAntigo)
+                    .collect(Collectors.toList());
 
-        return null;
+            cartas = repository.findByNomeIn(listaChangeLogNomes);
+
+            if(!cartas.isEmpty()) {
+                cartas.forEach(carta -> {
+                    ChangeLogNameDTO changeLogAtualizarRetorno = listaChangeLogNameResponse.stream()
+                            .filter(x -> x.getNomeAntigo() == carta.getNome())
+                            .findFirst().get();
+
+                    carta.setNome(changeLogAtualizarRetorno.getNomeNovo());
+                });
+
+                cartas = repository.saveAll(cartas);
+            }
+        }
+
+        return cartas;
+    }
+
+    private List<CheckDatabaseVersionResponse> consultarVersaoDataBase() {
+        ChangeLogNameResponse changeLogNameResponse = ygoProClient.consultarChangeLogName();
+
+        return ygoProClient.consultarVersaoDataBase();
     }
 }
