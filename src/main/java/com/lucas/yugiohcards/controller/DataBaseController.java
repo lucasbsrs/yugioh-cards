@@ -37,4 +37,12 @@ public class DataBaseController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/atualizar-novas-cartas")
+    public ResponseEntity<?> atualizarNovasCartas() {
+
+        dataBaseService.atualizarNovasCartas();
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

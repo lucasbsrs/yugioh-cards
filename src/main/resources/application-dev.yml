@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/yugiohdb
@@ -31,6 +33,7 @@ feign:
   client:
     config:
       default:
-        #connectTimeout: 5000
-        #readTimeout: 5000
         loggerLevel: full
+
+ygopro:
+  url: https://db.ygoprodeck.com/api/v7

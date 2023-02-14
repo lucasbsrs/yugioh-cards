@@ -1,11 +1,14 @@
 package com.lucas.yugiohcards.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -20,45 +23,58 @@ public class Carta implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "codigo")
     private String codigo;
 
+    @Column(name = "nome")
     private String nome;
 
+    @Column(name = "tipo")
     private String tipo;
 
-    @Column(length = 1200)
+    @Column(length = 1200, name = "descricao")
     private String descricao;
 
+    @Column(name = "ataque")
     private BigDecimal ataque;
 
+    @Column(name = "defesa")
     private BigDecimal defesa;
 
+    @Column(name = "level")
     private Long level;
 
+    @Column(name = "raca")
     private String raca;
 
+    @Column(name = "atributo")
     private String atributo;
 
+    @Column(name = "arquetipo")
     private String arquetipo;
 
+    @Column(name = "escala")
     private Long escala;
 
+    @Column(name = "link_valor")
     private Long linkValor;
 
+    @Column(name = "marcador_link")
     private String marcadorLink;
 
+    @Column(name = "status_ban_list_tcg")
     private String statusBanListTcg;
 
+    @Column(name = "status_ban_list_ocg")
     private String statusBanListOcg;
 
+    @Column(name = "status_ban_list_goat")
     private String statusBanListGoat;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_id")
-    private Set<SetCarta> setsCarta;
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_id")
-    private Set<ImagemCarta> imagensCarta;
+    @Column(name = "data_atualizacao")
+    private LocalDateTime dataAtualizacao;
 
 }

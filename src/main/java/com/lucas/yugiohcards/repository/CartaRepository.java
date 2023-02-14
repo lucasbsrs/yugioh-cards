@@ -15,4 +15,6 @@ public interface CartaRepository extends JpaRepository<Carta, Long> {
 
     List<Carta> findByNomeIn(List<String> nomes);
 
+    List<Carta> findByCodigoNotIn(List<String> codigos);
+
 }
