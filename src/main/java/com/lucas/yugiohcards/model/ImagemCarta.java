@@ -2,7 +2,7 @@ package com.lucas.yugiohcards.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Data
@@ -25,8 +25,9 @@ public class ImagemCarta implements Serializable {
 
     private String urlImagemPequena;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "carta_id")
-//    private Carta carta;
+    private String urlImagemCortada;
+
+    @Column(name = "carta_id")
+    private Long cartaId;
 
 }

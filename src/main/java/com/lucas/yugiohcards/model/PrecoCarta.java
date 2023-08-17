@@ -2,7 +2,7 @@ package com.lucas.yugiohcards.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Data
@@ -30,9 +30,7 @@ public class PrecoCarta implements Serializable {
 
     private String coolstuffinc;
 
-    @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "carta_id")
-    private Carta carta;
+    @Column(name = "carta_id")
+    private Long cartaId;
 
 }

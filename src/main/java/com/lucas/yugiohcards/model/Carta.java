@@ -5,10 +5,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -76,5 +77,17 @@ public class Carta implements Serializable {
 
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_id")
+    private List<ImagemCarta> imagensCarta;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_id")
+    private List<SetCarta> setsCarta;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carta_id")
+    private List<PrecoCarta> precosCarta;
 
 }

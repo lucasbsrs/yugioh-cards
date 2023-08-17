@@ -21,4 +21,7 @@ public class ImagemCartaResponse implements Serializable {
     @JsonProperty("image_url_small")
     private String urlImagemPequena;
 
+    @JsonProperty("image_url_cropped")
+    private String urlImagemCortada;
+
 }

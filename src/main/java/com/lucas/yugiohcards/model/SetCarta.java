@@ -2,7 +2,7 @@ package com.lucas.yugiohcards.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -28,5 +28,8 @@ public class SetCarta implements Serializable {
     private String codigoRaridade;
 
     private String preco;
+
+    @Column(name = "carta_id")
+    private Long cartaId;
 
 }

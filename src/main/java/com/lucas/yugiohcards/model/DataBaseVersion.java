@@ -1,9 +1,10 @@
 package com.lucas.yugiohcards.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,9 +22,12 @@ public class DataBaseVersion implements Serializable {
     private Long id;
 
     @Column(name = "versao")
-    private String versao;
+    private BigDecimal versao;
 
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+
+    @Column(name = "data_atualizacao_ygo_pro")
+    private LocalDateTime dataAtualizacaoYgoPro;
 
 }

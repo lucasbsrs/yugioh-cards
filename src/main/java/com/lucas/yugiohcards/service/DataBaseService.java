@@ -6,15 +6,19 @@ import com.lucas.yugiohcards.domains.ChangeLogNameDTO;
 import com.lucas.yugiohcards.integrations.client.YgoProClient;
 import com.lucas.yugiohcards.integrations.response.*;
 import com.lucas.yugiohcards.model.Carta;
+import com.lucas.yugiohcards.model.DataBaseVersion;
 import com.lucas.yugiohcards.repository.CartaRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,11 +40,11 @@ public class DataBaseService {
         try{
             ImportacaoCartaResponse cartasImportadas = ygoProClient.buscarTodasCartas();
 
-            List<CheckDatabaseVersionResponse> dataBaseVersionYgoPro = consultarVersaoDataBase();
+            CheckDatabaseVersionResponse dataBaseVersionYgoPro = dataBaseVersionService.consultarVersaoDataBaseYgoPro();
 
             List<Carta> listaCartas = CartaAdapter.importacaoCartaResponseToCarta(cartasImportadas);
 
-            dataBaseVersionService.atualizar(dataBaseVersionYgoPro.get(0).getDataBaseVersion());
+            dataBaseVersionService.atualizar(dataBaseVersionYgoPro.getDataBaseVersion(), dataBaseVersionYgoPro.getLastUpdate());
 
             repository.saveAll(listaCartas);
         } catch (Exception e) {
@@ -56,37 +60,43 @@ public class DataBaseService {
 
         ChangeLogIdResponse changeLogIdResponse = ygoProClient.consultarChangeLogId();
 
-        List<CheckDatabaseVersionResponse> versaoDataBase = consultarVersaoDataBase();
+        CheckDatabaseVersionResponse versaoDataBaseYgo = dataBaseVersionService.consultarVersaoDataBaseYgoPro();
 
-        LocalDateTime dateUpdateDataBaseVersion = LocalDateTime.parse(versaoDataBase.get(0).getLastUpdate(), formatter);
+        DataBaseVersion dataBaseDB = dataBaseVersionService.consultarDataBaseBD();
 
-        List<ChangeLogIdDTO> listaChangeLogAtualizar = changeLogIdResponse.getData().stream()
-                .filter(p -> LocalDateTime.parse(p.getDate(), formatter).isAfter(dateUpdateDataBaseVersion.minusDays(DIAS_ATUALIZACAO)))
-                .map(x -> {
-                    LocalDateTime dateTime = LocalDateTime.parse(x.getDate(), formatter);
+        BigDecimal versaoDataBaseYgoDecimal = BigDecimal.valueOf(Double.parseDouble(versaoDataBaseYgo.getDataBaseVersion()));
 
-                    return ChangeLogIdDTO
-                            .builder()
-                            .nome(x.getNome())
-                            .dataAtualizacao(dateTime)
-                            .oldId(x.getOldId())
-                            .newId(x.getNewId())
-                            .build();
+        if(versaoDataBaseYgoDecimal.compareTo(dataBaseDB.getVersao()) > 0) {
+            LocalDateTime dateUpdateDataBaseVersion = LocalDateTime.parse(versaoDataBaseYgo.getLastUpdate(), formatter);
 
-                }).toList();
+            List<ChangeLogIdDTO> listaChangeLogAtualizar = changeLogIdResponse.getData().stream()
+                    .filter(p -> LocalDateTime.parse(p.getDate(), formatter).isAfter(dateUpdateDataBaseVersion.minusDays(DIAS_ATUALIZACAO)))
+                    .map(x -> {
+                        LocalDateTime dateTime = LocalDateTime.parse(x.getDate(), formatter);
 
-        if(!listaChangeLogAtualizar.isEmpty()) {
-            List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogIdDTO::getOldId).collect(Collectors.toList());
+                        return ChangeLogIdDTO
+                                .builder()
+                                .nome(x.getNome())
+                                .dataAtualizacao(dateTime)
+                                .oldId(x.getOldId())
+                                .newId(x.getNewId())
+                                .build();
 
-            cartas = repository.findByCodigoIn(listaChangeLogCodigos);
+                    }).toList();
 
-            cartas.forEach(carta -> {
-                ChangeLogIdDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
+            if(!listaChangeLogAtualizar.isEmpty()) {
+                List<String> listaChangeLogCodigos = listaChangeLogAtualizar.stream().map(ChangeLogIdDTO::getOldId).collect(Collectors.toList());
 
-                carta.setCodigo(changeLogAtualizarRetorno.getNewId());
-            });
+                cartas = repository.findByCodigoIn(listaChangeLogCodigos);
 
-            cartas = repository.saveAll(cartas);
+                cartas.forEach(carta -> {
+                    ChangeLogIdDTO changeLogAtualizarRetorno = listaChangeLogAtualizar.stream().filter(x -> x.getOldId() == carta.getCodigo()).findFirst().get();
+
+                    carta.setCodigo(changeLogAtualizarRetorno.getNewId());
+                });
+
+                cartas = repository.saveAll(cartas);
+            }
         }
 
         return cartas;
@@ -100,41 +110,47 @@ public class DataBaseService {
 
         ChangeLogNameResponse changeLogNameResponse = ygoProClient.consultarChangeLogName();
 
-        List<CheckDatabaseVersionResponse> checkDatabaseVersionResponse = consultarVersaoDataBase();
+        CheckDatabaseVersionResponse versaoDataBaseYgo = dataBaseVersionService.consultarVersaoDataBaseYgoPro();
 
-        LocalDateTime dateUpdateDataBaseVersion = LocalDateTime.parse(checkDatabaseVersionResponse.get(0).getLastUpdate(), formatter);
+        DataBaseVersion dataBaseDB = dataBaseVersionService.consultarDataBaseBD();
 
-        List<ChangeLogNameDTO> listaChangeLogNameResponse = changeLogNameResponse.getData().stream()
-                .filter(p -> LocalDateTime.parse(p.getDataAtualizacao(), formatter).isAfter(dateUpdateDataBaseVersion.minusDays(DIAS_ATUALIZACAO)))
-                .map(x -> {
-                    LocalDateTime dateTime = LocalDateTime.parse(x.getDataAtualizacao(), formatter);
+        BigDecimal versaoDataBaseYgoDecimal = BigDecimal.valueOf(Double.parseDouble(versaoDataBaseYgo.getDataBaseVersion()));
 
-                    return ChangeLogNameDTO
-                            .builder()
-                            .dataAtualizacao(dateTime)
-                            .nomeAntigo(x.getNomeAntigo())
-                            .nomeNovo(x.getNomeNovo())
-                            .build();
+        if (versaoDataBaseYgoDecimal.compareTo(dataBaseDB.getVersao()) > 0) {
+            LocalDateTime dateUpdateDataBaseVersion = LocalDateTime.parse(versaoDataBaseYgo.getLastUpdate(), formatter);
 
-                }).toList();
+            List<ChangeLogNameDTO> listaChangeLogNameResponse = changeLogNameResponse.getData().stream()
+                    .filter(p -> LocalDateTime.parse(p.getDataAtualizacao(), formatter).isAfter(dateUpdateDataBaseVersion.minusDays(DIAS_ATUALIZACAO)))
+                    .map(x -> {
+                        LocalDateTime dateTime = LocalDateTime.parse(x.getDataAtualizacao(), formatter);
 
-        if(!listaChangeLogNameResponse.isEmpty()) {
-            List<String> listaChangeLogNomes = listaChangeLogNameResponse.stream()
-                    .map(ChangeLogNameDTO::getNomeAntigo)
-                    .collect(Collectors.toList());
+                        return ChangeLogNameDTO
+                                .builder()
+                                .dataAtualizacao(dateTime)
+                                .nomeAntigo(x.getNomeAntigo())
+                                .nomeNovo(x.getNomeNovo())
+                                .build();
 
-            cartas = repository.findByNomeIn(listaChangeLogNomes);
+                    }).toList();
 
-            if(!cartas.isEmpty()) {
-                cartas.forEach(carta -> {
-                    ChangeLogNameDTO changeLogAtualizarRetorno = listaChangeLogNameResponse.stream()
-                            .filter(x -> x.getNomeAntigo() == carta.getNome())
-                            .findFirst().get();
+            if (!listaChangeLogNameResponse.isEmpty()) {
+                List<String> listaChangeLogNomes = listaChangeLogNameResponse.stream()
+                        .map(ChangeLogNameDTO::getNomeAntigo)
+                        .collect(Collectors.toList());
 
-                    carta.setNome(changeLogAtualizarRetorno.getNomeNovo());
-                });
+                cartas = repository.findByNomeIn(listaChangeLogNomes);
 
-                cartas = repository.saveAll(cartas);
+                if (!cartas.isEmpty()) {
+                    cartas.forEach(carta -> {
+                        ChangeLogNameDTO changeLogAtualizarRetorno = listaChangeLogNameResponse.stream()
+                                .filter(x -> x.getNomeAntigo() == carta.getNome())
+                                .findFirst().get();
+
+                        carta.setNome(changeLogAtualizarRetorno.getNomeNovo());
+                    });
+
+                    cartas = repository.saveAll(cartas);
+                }
             }
         }
 
@@ -143,34 +159,39 @@ public class DataBaseService {
 
     public void atualizarNovasCartas() {
 
-        ImportacaoCartaResponse importacaoCartaResponse = ygoProClient.buscarTodasCartas();
+        CheckDatabaseVersionResponse versaoDataBaseYgo = dataBaseVersionService.consultarVersaoDataBaseYgoPro();
 
-        List<Carta> cartasBaseDado = repository.findAll();
+        DataBaseVersion dataBaseDB = dataBaseVersionService.consultarDataBaseBD();
 
-        List<String> codigosCartasBaseDado = cartasBaseDado.stream().map(Carta::getCodigo).toList();
+        BigDecimal versaoDataBaseYgoDecimal = BigDecimal.valueOf(Double.parseDouble(versaoDataBaseYgo.getDataBaseVersion()));
 
-        List<String> codigosCartasYgoPro = importacaoCartaResponse.getData().stream().map(DadosCartaMonstroResponse::getCodigo).toList();
+        if (versaoDataBaseYgoDecimal.compareTo(dataBaseDB.getVersao()) > 0) {
+            ImportacaoCartaResponse importacaoCartaResponse = ygoProClient.buscarTodasCartas();
 
-        List<String> nonExistentRecords = new ArrayList<>();
+            List<Carta> cartasBaseDado = repository.findAll();
 
-        for (String record : codigosCartasYgoPro) {
-            if (!codigosCartasBaseDado.contains(record)) {
-                nonExistentRecords.add(record);
+            List<String> codigosCartasBaseDado = cartasBaseDado.stream().map(Carta::getCodigo).toList();
+
+            List<String> codigosCartasYgoPro = importacaoCartaResponse.getData().stream().map(DadosCartaMonstroResponse::getCodigo).toList();
+
+            List<String> nonExistentRecords = new ArrayList<>();
+
+            for (String record : codigosCartasYgoPro) {
+                if (!codigosCartasBaseDado.contains(record)) {
+                    nonExistentRecords.add(record);
+                }
             }
+
+            ImportacaoCartaResponse novasCartasFiltradas = new ImportacaoCartaResponse();
+
+            novasCartasFiltradas.setData(importacaoCartaResponse.getData().stream()
+                    .filter(e -> nonExistentRecords.contains(e.getCodigo()))
+                    .collect(Collectors.toList()));
+
+            List<Carta> listaCartas = CartaAdapter.importacaoCartaResponseToCarta(novasCartasFiltradas);
+
+            repository.saveAll(listaCartas);
         }
-
-        ImportacaoCartaResponse novasCartasFiltradas = new ImportacaoCartaResponse();
-
-        novasCartasFiltradas.setData(importacaoCartaResponse.getData().stream()
-                .filter(e -> nonExistentRecords.contains(e.getCodigo()))
-                .collect(Collectors.toList()));
-
-        List<Carta> listaCartas = CartaAdapter.importacaoCartaResponseToCarta(novasCartasFiltradas);
-
-        repository.saveAll(listaCartas);
     }
 
-    private List<CheckDatabaseVersionResponse> consultarVersaoDataBase() {
-        return ygoProClient.consultarVersaoDataBase();
-    }
 }
