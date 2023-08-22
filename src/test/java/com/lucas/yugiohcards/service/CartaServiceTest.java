@@ -1,9 +1,9 @@
 //package com.lucas.yugiohcards.service;
 //
-//import com.lucas.yugiohcards.integrations.client.YgoProClient;
-//import com.lucas.yugiohcards.integrations.response.ChangeLogIdResponse;
-//import com.lucas.yugiohcards.integrations.response.CheckDatabaseVersionResponse;
-//import com.lucas.yugiohcards.integrations.response.DadosChangeLogIdResponse;
+//import com.lucas.yugiohcards.adapter.out.ygoclient.YgoProClient;
+//import com.lucas.yugiohcards.adapter.out.ygoclient.response.ChangeLogIdResponse;
+//import com.lucas.yugiohcards.adapter.out.ygoclient.response.CheckDatabaseVersionResponse;
+//import com.lucas.yugiohcards.adapter.out.ygoclient.response.DadosChangeLogIdResponse;
 //import com.lucas.yugiohcards.model.Carta;
 //import com.lucas.yugiohcards.model.DataBaseVersion;
 //import com.lucas.yugiohcards.repository.CartaRepository;
